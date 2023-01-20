@@ -1,20 +1,20 @@
 import React from 'react';
-import { Avatar, Button, Modal, Portal, Searchbar, Text } from 'react-native-paper';
+import { Avatar, Button, FAB, Modal, Portal, Text } from 'react-native-paper';
 
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native'
 
 const Profile = ({navigation}) => {
     const [visible, setVisible] = React.useState(false);
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    const containerStyle = {backgroundColor: 'white', padding: 20, margin: 60};
+    const DATA = [{id: '1', hour:'15:30'}, {id: '2', hour:'17:00'} , {id: '3', hour:'17:30'}, {id: '4', hour:'18:00'}, {id: '5', hour:'18:30'}];
 
     return(
-        <View style={[styles.scene, { backgroundColor: '#fff' }]} >
+        <View style={styles.scene} >
         <Portal>
-          <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-            <Text variant='displayLarge'>What does 'Verified' Means?</Text>
+          <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
+            <Text variant='titleSmall'>What does 'Verified' Means?</Text>
             <Text variant='bodySmall'>The verified icon means that our customer care staff, have thoroughly validated the identity, credentials, and location, of the doctor or health provider holding this account. Our company validates the above mentioned data when the health provider is registered in our platform for the first time, and once per year. </Text>
             <Button mode='text' onPress={hideModal}>
             Got it
@@ -22,14 +22,40 @@ const Profile = ({navigation}) => {
           </Modal>
         </Portal>
         <View style={styles.container}>
-          {<Avatar.Image size={100} source={require('./src/usuario.png')} style={styles.top}/>}
-          <Text variant='headlineLarge'>Dr. Fernando Paniagua</Text>
-          <Text>Dr. Paniagua has extensive experience in pediatrics. He coursed his major in UMSA, La Paz Bolivia, while completed his specialty in UNAM, Mexico D.F.</Text>
+          {<Avatar.Image size={200} source={require('./src/usuario.png')}/>}
+          <Button icon={require('./src/quality.png')} mode='text' onPress={showModal}>
+          Verificado
+          </Button>
+          <Text variant='titleLarge'>Dr. Fernando Paniagua</Text>
+          <Text variant='bodyMedium'>Pediatra</Text>
+          <Button icon={require('./src/marcador-de-mapa.png')} mode='text' onPress={showModal}>
+          250ft (Tap here to see the doctors's office location.)
+          </Button>
+          <Text variant='bodyMedium'>Dr. Paniagua has extensive experience in pediatrics. He coursed his major in UMSA, La Paz Bolivia, while completed his specialty in UNAM, Mexico D.F.</Text>
+          <SafeAreaView style={styles.container2}>
+          <Text variant='titleSmall'>Today's availability</Text>
+            <FlatList
+              data={DATA}
+              horizontal={true}
+              textColor='black'
+              renderItem={({item}) =>   
+              <Button style={styles.button} mode="outlined" textColor={'black'} onPress={() => console.log('Pressed')}>
+                {item.hour}
+              </Button>}
+              keyExtractor={item => item.id}
+            />
+          </SafeAreaView>
         </View>
-        <Text>Today's availability</Text>
-        <Button icon={require('./src/quality.png')} mode='text' onPress={showModal}>
-        Verificado
-        </Button>
+        <FAB
+          style={styles.fab}
+          color={'white'}
+          label="Make an Appointment"
+          onPress = {
+            () =>{
+                navigation.navigate('Appointment')
+            }
+          } 
+        />
       </View> 
     )
 }
@@ -38,6 +64,12 @@ export default Profile;
 const styles = StyleSheet.create({
     scene: {
       flex: 1,
+      backgroundColor: '#fff'
+    },
+    modal: {
+      backgroundColor: 'white', 
+      padding: 20, 
+      margin: 60
     },
     container: {
       justifyContent: 'space-between',
@@ -45,5 +77,22 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginTop:'15%'
     },
-  
+    container2: {
+      marginTop: 20,
+      borderWidth: 1
+    },
+    button: {
+      width: 100,
+      height:40,
+      marginTop:10,
+      marginRight:10
+    },
+    fab: {
+      backgroundColor: '#2196F3',
+      position: 'absolute',
+      margin: 16,
+      right: 0,
+      bottom: 0,
+    },
+
   });
