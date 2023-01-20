@@ -1,8 +1,6 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { Button, FAB, Portal, Searchbar, Card } from 'react-native-paper';
-import { TextInput } from 'react-native-paper';
-
+import { Button, FAB, Portal, TextInput } from 'react-native-paper';
 
 const Home = ({navigation}) => {
 
@@ -17,36 +15,40 @@ const Home = ({navigation}) => {
           <Button
             style={homeStyles.buttonFacebookContainer}
             mode="contained"
+            icon={require('./src/facebook.png')} 
             onPress = {
                 () =>{
-                    navigation.navigate('TabViewExample')
+                    navigation.navigate('Tabs')
                 }}>
             Sign in with Facebook
           </Button>
           <Button
             style={homeStyles.buttonTwiterContainer}
             mode="contained"
+            icon={require('./src/twitter.png')} 
             onPress = {
                 () =>{
-                    navigation.navigate('TabViewExample')
+                    navigation.navigate('Tabs')
                 }}>
             Sign in with Twitter
           </Button>
           <Button
             style={homeStyles.buttonGoogleContainer}
             mode="contained"
+            icon={require('./src/google.png')} 
             onPress = {
                 () =>{
-                    navigation.navigate('TabViewExample')
+                    navigation.navigate('Tabs')
                 }}>
           Sign in with Google
           </Button>
           <Text style={homeStyles.circle}>Or</Text>
         </View>
+        <View style={{marginLeft:'15%', marginRight: '15%'}}>
           <TextInput
             label="Username"
             mode={'outlined'}
-            //outlineStyle={homeStyles2.textInput2}
+            outlineStyle={homeStyles.textInput2}
             value={userName}
             onChangeText={userName => setUserName(userName)}
           />
@@ -54,7 +56,7 @@ const Home = ({navigation}) => {
             label="Password"
             mode={'outlined'}
             secureTextEntry={true}
-            //outlineStyle={homeStyles2.textInput2}
+            outlineStyle={homeStyles.textInput2}
             value={password}
             onChangeText={password => setPassword(password)}
           />
@@ -63,10 +65,11 @@ const Home = ({navigation}) => {
             mode="contained"
             onPress = {
                 () =>{
-                    navigation.navigate('TabViewExample')
+                    navigation.navigate('Tabs')
                 }}>
           Sign in
           </Button>
+        </View>
       </View>   
     )
 }
@@ -99,17 +102,16 @@ const homeStyles = StyleSheet.create({
     buttonSignInContainer: {
       backgroundColor: '#2ECC71',
       borderRadius: 100,
-      width: '70%',
       height: 50,
-      margin: 10,
-      display: 'flex', justifyContent: 'center'
+      marginTop: 10,
+      display: 'flex', 
+      justifyContent: 'center'
     },
     textInput:{
       backgroundColor: '#BE3C2E',
       borderRadius: 100,
     },
     textInput2:{
-      backgroundColor: '#BE3C2E',
       borderRadius: 100,
     },
     buttonText:{
@@ -129,17 +131,4 @@ const homeStyles = StyleSheet.create({
       textAlign: 'center',
     }
 
-  });
-
-  const homeStyles2 = StyleSheet.create({
-    TextInput:{
-      backgroundColor: '#BE3C2E',
-      borderRadius: 100,
-      width: '70%'
-    },
-    TextInput2:{
-      backgroundColor: '#BE3C2E',
-      borderRadius: 100,
-      width: '70%'
-    },
   });

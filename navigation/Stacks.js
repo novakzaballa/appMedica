@@ -3,7 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
 import Home from '../screens/Home'
 import Profile from '../screens/Profile'
-import TabViewExample from '../screens/tabs'
+import Tabs from '../screens/tabs'
+import Appointment from '../screens/Appointment'
 
 const Stack = createNativeStackNavigator()
 
@@ -29,7 +30,7 @@ const Stacks = () => {
                     component={ Profile }
                     options={{
                         headerStyle: {
-                          backgroundColor: '#FF8B00',
+                          backgroundColor: '#E91E63',
                         },
                         headerTintColor: '#fff',
                         headerTitleStyle: {
@@ -38,18 +39,31 @@ const Stacks = () => {
                       }}
                     />
                 <Stack.Screen
-                    name='TabViewExample'
-                    component={ TabViewExample }
+                    name='Tabs'
+                    component={ Tabs }
                     options={{
                         headerStyle: {
-                          backgroundColor: '#FF8B00',
+                          backgroundColor: '#E91E63',
                         },
                         headerTintColor: '#fff',
                         headerTitleStyle: {
                           fontWeight: 'bold',
                         },
                       }}
-                    />                    
+                    />
+                <Stack.Screen
+                    name='Appointment'
+                    component={ Appointment }
+                    options={{
+                        headerStyle: {
+                          backgroundColor: '#E91E63',
+                        },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                          fontWeight: 'bold',
+                        },
+                      }}
+                    />             
             </Stack.Navigator>
         </NavigationContainer>
     )
