@@ -5,7 +5,7 @@ import { TabView } from 'react-native-tab-view';
 import { AlphabetList } from "react-native-section-alphabet-list";
 import { List, Avatar } from 'react-native-paper';
  
-const FirstRoute = ({navigation}) => (
+const SecondRoute = ({navigation}) => (
   <View style={[styles.scene, { backgroundColor: '#fff' }]}>
     <AlphabetList
       data={data}
@@ -15,11 +15,14 @@ const FirstRoute = ({navigation}) => (
       }}
       renderCustomItem={(item) => (
         <List.Item
-          title={item.value}
+          title={item.nombre}
           right={props => <List.Icon {...props} icon={require('./src/usuario.png')}/>}
           onPress = {
             () =>{
-                navigation.navigate('Profile')
+                navigation.navigate('Profile', {
+                  doctor: item
+                }
+              )
             }
           } 
         />
@@ -27,76 +30,164 @@ const FirstRoute = ({navigation}) => (
     />
   </View>
 );
-const SecondRoute = ({navigation}) =>{
+const FirstRoute = ({navigation}) =>{
   const [visible, setVisible] = React.useState(false);
 
   return(
     <View style={[styles.scene, { backgroundColor: '#fff' }]} >
-
     </View>
   );
 } 
 
-const ThirtRoute = () => (
-    <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
-  );
-
   const data = [
-    { value: 'Lillie-Mai Allen', key: 'lCUTs2' },
-    { value: 'Emmanuel Goldstein', key: 'TXdL0c2' },
-    { value: 'Emmanuel Goldstein', key: 'TXdLeav0c2' },
-
-    { value: 'Emma Goldstein', key: 'TXzddL0c' },
-    { value: 'Emma sol', key: 'TXdgL0c' },
-    { value: 'Ester Soliz', key: 'TXdLsg0c' },
-    { value: 'Emmanuel Goldstein', key: 'TXdLzx0c' },
-    { value: 'Ernesto Gonzales', key: 'TXdLc0c' },
-
-    { value: 'Winston Smith', key: 'zqsiEw' },
-    { value: 'William Blazkowicz', key: 'psg2PM' },
-    { value: 'Winston Smith', key: 'zqsiEw2' },
-    { value: 'wally Smith', key: 'zqsiEw3' },
-    { value: 'William Blazkowicz', key: 'psg2PM2' },
-    { value: 'Winston Smith', key: 'zqsiEw4' },
-    { value: 'William Blazkowicz', key: 'psg2PM3' },
-    { value: 'Winston Smith', key: 'zqsiEw45' },
-    { value: 'William Blazkowicz', key: 'psg2PM4' },
-    { value: 'wonk lu', key: 'zqsiEw5' },
-    { value: 'William Blazkowicz', key: 'psg2PM5' },
-    { value: 'Winston Smith', key: 'zqsiEw6' },
-    { value: 'William Blazkowicz', key: 'psg2PM6' },
-    { value: 'wanda sya', key: 'zqsiEw7' },
-    { value: 'William Blazkowicz', key: 'psg2PM7' },
-    { value: 'Winston Smith', key: 'zqsiEw8' },
-    { value: 'Willy Marquez', key: 'psg2PM8' },    
-    { value: 'Winston Smith', key: 'zqsiEw9' },
-    { value: 'William Blazkowicz', key: 'psg2PM0' },
-    { value: 'Gordon Comstock', key: '1K6I18' },
-    { value: 'Gabriel santso', key: '1K6I1238' },
-
-    { value: 'Gilmar Estrada', key: '1K6I2318' },
-
-    { value: 'Philip Ravelston', key: 'NVHSkA' },
-    { value: 'Paola Vera', key: 'NVHSkA3' },
-    { value: 'Pablo Lomas', key: 'NVHSk1243sA3' },
-
-
-    { value: 'Rosemary Waterlow', key: 'SaHqyG' },
-    { value: 'Julia Comstock', key: 'iaT1Ex' },
-    { value: 'Mihai Maldonado', key: 'OvMd5e' },
-    { value: 'Murtaza Molina', key: '25zqAO' },
-    { value: 'Peter Petigrew', key: '8cWuu3' },
+    { "value": "Michael Torrez",
+      "nombre": "Michael Torrez", 
+      "key": "lCUTs2",
+      "especialidad": "Traumatologo",
+      "ubicacion": {
+        "latitude": -17.397819,
+        "longitude": -66.151931,
+        "city": "Madrid",
+        "description": "Puerta del Sol"
+      }
+    },
+    { "value": "Emmanuel  Gazmey", 
+      "key": "TXdL0c2",
+      "nombre": "Emmanuel  Gazmey",
+      "especialidad": "Pediatra",
+      "ubicacion": {
+        "latitude": -16.512764, 
+        "longitude": -68.128196,
+        "city": "La paz",
+        "description": "Puerta del Sol"
+      }
+    },
+    { "value": "Jose Osorio",
+      "nombre": "Jose Osorio", 
+      "key": "TXdLeaav0c2",
+      "especialidad": "Oncologo",
+      "ubicacion": {
+        "latitude": -16.508423,
+        "longitude": -68.126992,
+        "city": "La paz",
+        "description": "Isabel la Catolica"
+      }
+    },
+    { "value": "Emma Lunas",
+      "nombre": "Emma Lunas", 
+      "key": "TXzddL0c",
+      "especialidad": "Traumatologo",
+      "ubicacion": {
+        "latitude": -16.496981,
+        "longitude": -68.121777,
+        "city": "La paz",
+        "description": "AV. busch"
+      }
+    },
+    { 
+      "value": "Ester Soliz",
+      "nombre": "Ester Soliz",
+      "key": "TXsdLsg0c",
+      "especialidad": "GAstroenterologa",
+      "ubicacion": {
+        "latitude": -16.487284,
+        "longitude": -68.121897,
+        "city": "La paz",
+        "description": "AV. busch"
+      }
+    },
+    { 
+      "value": "Jesus Cortez",
+      "nombre": "Jesus Cortez",
+      "key": "TXdLc0c",
+      "especialidad": "Nefrologo",
+      "ubicacion": {
+        "latitude": -16.525448,
+        "longitude": -68.109590,
+        "city": "La paz",
+        "description": "Obrahjes calle 6"
+      }
+    },
+    { 
+      "value": "Juan Perez",
+      "nombre": "Juan Perez",
+      "key": "psg2PM",
+      "especialidad": "Pediatra",
+      "ubicacion": {
+        "latitude": -16.496524,
+        "longitude": -68.144174,
+        "city": "La paz",
+        "description": "Max Paredes Nro 579"
+      }
+    },
+    { 
+      "value": "Salomon Villada",
+      "nombre": "Salomon Villada", 
+      "key": "zqsiEw2",
+      "especialidad": "Neurologo",
+      "ubicacion": {
+        "latitude": -16.507763,
+        "longitude": -68.127458,
+        "city": "La paz",
+        "description": "Av. 6 de Agosto"
+      }
+    },
+    { 
+      "value": "Juan Lordoño",
+      "nombre": "Juan Lordoño",
+      "key": "zqsiE2w3",
+      "especialidad": "Cardiologo",
+      "ubicacion": {
+        "latitude": -16.497555,
+        "longitude": -68.124245,
+        "city": "La paz",
+        "description": "Stadium"
+      }
+    },
+    { 
+      "value": "Benito Martinez",
+      "nombre": "Benito Martinez",
+      "key": "z1qsiEw4",
+      "especialidad": "Medico General",
+      "ubicacion": {
+        "latitude": -16.502882,
+        "longitude": -68.120763,
+        "city": "La paz",
+        "description": "Av. busch Triangular"
+      }
+    },
+    { 
+      "value": "Paola Vera",
+      "nombre": "Paola Vera",
+      "key": "zqsiEw5",
+      "especialidad": "Gastroenterologo",
+      "ubicacion": {
+        "latitude": -16.509244,
+        "longitude": -68.119179,
+        "city": "La paz",
+        "description": "Av. Saavedra"
+      }
+    },
+    { 
+      "value": "Gilmar Salzar",
+      "nombre": "Gilmar Salzar",
+      "key": "1K6Iaj2318",
+      "especialidad": "Ginecologo",
+      "ubicacion": {
+        "latitude": -16.502931,
+        "longitude": -68.121956,
+        "city": "La paz",
+        "description": "Av. Saavedra esq. Villalobos"
+        } 
+    }
   ]
 
 const Tabs =({navigation}) => {
-
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'By name' },
-    { key: 'second', title: 'By speciallity' },
-    { key: 'thirt', title: 'Cerca de mi' },
+    { key: 'first', title: 'By speciallity'},
+    { key: 'second', title: 'By name' },
   ]);
-
 
   return (
     <>
@@ -107,12 +198,10 @@ const Tabs =({navigation}) => {
         navigationState={{ index, routes }}
         renderScene={ ({ route}) => {
           switch (route.key) {
-            case 'first':
+            case 'first': FirstRoute
               return <FirstRoute navigation={navigation}/>;
             case 'second':
               return <SecondRoute navigation={navigation}/>;
-            case 'thirt':
-                return <ThirtRoute />;
             default:
               return null;
           }
