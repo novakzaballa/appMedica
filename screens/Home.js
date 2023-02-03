@@ -1,45 +1,18 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Button, FAB, Portal, TextInput } from 'react-native-paper';
-import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 const Home = ({navigation}) => {
-  check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION)
-  .then((result) => {
-    switch (result) {
-      case RESULTS.UNAVAILABLE:
-        console.log('This feature is not available (on this device / in this context)');
-        break;
-      case RESULTS.DENIED:
-        request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION).then((result) => {
-          console.log(result)
-        });      
-        console.log('The permission has not been requested / is denied but requestable');
-        break;
-      case RESULTS.LIMITED:
-        console.log('The permission is limited: some actions are possible');
-        break;
-      case RESULTS.GRANTED:
-        console.log('The permission is granted');
-        break;
-      case RESULTS.BLOCKED:
-        console.log('The permission is denied and not requestable anymore');
-        break;
-    }
-  })
-  .catch((error) => {
-    console.log(error);
-  });
 
     const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
 
     /*const checkPermissions = () => {
       request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION, {
-        title: "Permission for Captureeeee Extraaaodrinary Application",
+        title: "Permission for APP medica Application",
         message:
         "For your beautiful pictures, " +
-        "Grant permission to Captureeeee Extraaaordinary Application",
+        "Grant permission to APP medica Application",
         buttonNeutral: "Not Right Now!",
         buttonNegative: "Cancel",
         buttonPositive: "Alright"
@@ -78,7 +51,7 @@ const Home = ({navigation}) => {
             icon={require('./src/google.png')} 
             onPress = {
                 () =>{
-                  checkPermissions()
+                  navigation.navigate('SignUp')
                 }}>
           Sign in with Google
           </Button>

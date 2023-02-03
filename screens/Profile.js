@@ -3,9 +3,10 @@ import { Avatar, Button, FAB, Modal, Portal, Text } from 'react-native-paper';
 
 import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native'
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation, route}) => {
     const [visible, setVisible] = React.useState(false);
-
+    const { user } = route.params;
+    console.log('user:', user);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
     const DATA = [{id: '1', hour:'15:30'}, {id: '2', hour:'17:00'} , {id: '3', hour:'17:30'}, {id: '4', hour:'18:00'}, {id: '5', hour:'18:30'}];
@@ -15,7 +16,7 @@ const Profile = ({navigation}) => {
         <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
             <Text variant='titleSmall'>What does 'Verified' Means?</Text>
-            <Text variant='bodySmall'>The verified icon means that our customer care staff, have thoroughly validated the identity, credentials, and location, of the doctor or health provider holding this account. Our company validates the above mentioned data when the health provider is registered in our platform for the first time, and once per year. </Text>
+            <Text variant='bodySmall'>The verified icon means that our customer care staff, have thoroughly validated the identity, credentials, and location, of the user or health provider holding this account. Our company validates the above mentioned data when the health provider is registered in our platform for the first time, and once per year. </Text>
             <Button mode='text' onPress={hideModal}>
             Got it
             </Button>
@@ -26,11 +27,13 @@ const Profile = ({navigation}) => {
           <Button icon={require('./src/quality.png')} mode='text' onPress={showModal}>
           Verificado
           </Button>
-          <Text variant='titleLarge'>Dr. Fernando Paniagua</Text>
-          <Text variant='bodyMedium'>Pediatra</Text>
+          <Text variant='titleLarge'>{user.nombre}</Text>
+          <Text variant='bodyMedium'>{user.especialidad}</Text>
+          {user.dist&&
           <Button icon={require('./src/marcador-de-mapa.png')} mode='text' onPress={showModal}>
-          250ft (Tap here to see the doctors's office location.)
-          </Button>
+          
+          {user.dist.toFixed(2)}Km. (Tap here to see the users's office location.)
+          </Button>}
           <Text variant='bodyMedium'>Dr. Paniagua has extensive experience in pediatrics. He coursed his major in UMSA, La Paz Bolivia, while completed his specialty in UNAM, Mexico D.F.</Text>
           <SafeAreaView style={styles.container2}>
           <Text variant='titleSmall'>Today's availability</Text>
