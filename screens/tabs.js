@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, StatusBar, ScrollView, SegmentedButtons} from 'react-native';
-import { Button, Divider, Modal, Portal, Searchbar, Text, List } from 'react-native-paper';
+import { Button, Divider, FAB, Modal, Portal, Searchbar, Text, List } from 'react-native-paper';
 import { TabView } from 'react-native-tab-view';
 import { AlphabetList } from "react-native-section-alphabet-list";
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
@@ -180,26 +180,28 @@ const SecondRoute = ({navigation}) => (
 
 const Tabs =({navigation}) => {
 
-  const calcularDistanciaEntreDosCoordenadas = (lat1, lon1, lat2, lon2) => {
+  const [enableGPS, setEnableGPS] = React.useState(false);
+  const [proximityOrder, setProximityOrder] = React.useState(data);
+  const [currentPosition, setCurrentPosition] = React.useState({});
+
+  const calculateDistanceBetweenTwoCoordinates = (lat1, lon1, lat2, lon2) => {
     // Convertir todas las coordenadas a radianes
-    lat1 = gradosARadianes(lat1);
-    lon1 = gradosARadianes(lon1);
-    lat2 = gradosARadianes(lat2);
-    lon2 = gradosARadianes(lon2);
+    lat1 = degreetoRadians(lat1);
+    lon1 = degreetoRadians(lon1);
+    lat2 = degreetoRadians(lat2);
+    lon2 = degreetoRadians(lon2);
     // Aplicar fórmula
-    const RADIO_TIERRA_EN_KILOMETROS = 6371;
-    let diferenciaEntreLongitudes = (lon2 - lon1);
-    let diferenciaEntreLatitudes = (lat2 - lat1);
-    let a = Math.pow(Math.sin(diferenciaEntreLatitudes / 2.0), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(diferenciaEntreLongitudes / 2.0), 2);
+    const EARTH_RADIO_KM = 6371;
+    let diffBetweenLongs = (lon2 - lon1);
+    let diffBetweenLats = (lat2 - lat1);
+    let a = Math.pow(Math.sin(diffBetweenLats / 2.0), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(diffBetweenLongs / 2.0), 2);
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return RADIO_TIERRA_EN_KILOMETROS * c;
+    return EARTH_RADIO_KM * c;
   };
 
-  const gradosARadianes = (grados) => {
+  const degreetoRadians = (grados) => {
       return grados * Math.PI / 180;
   };
-  const [position, setPosition] = React.useState('');
-  const [proximityOrder, setProximityOrder] = React.useState(data);
 
   check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION)
   .then((result) => {
@@ -218,7 +220,7 @@ const Tabs =({navigation}) => {
         break;
       case RESULTS.GRANTED:
         console.log('The permission is granted');
-        setPosition(true);
+        setEnableGPS(true);
         break;
       case RESULTS.BLOCKED:
         console.log('The permission is denied and not requestable anymore');
@@ -229,11 +231,11 @@ const Tabs =({navigation}) => {
     console.log(error);
   });
 
-  !position &&
+  !enableGPS &&
   Geolocation.getCurrentPosition(
     position => {
-      console.log(position);
-      setProximityOrder(ordenar(position, data));
+      setProximityOrder(sortDoctorList(position, data));
+      setCurrentPosition(position);
     },
     error => {
       console.log(error);
@@ -253,18 +255,18 @@ const Tabs =({navigation}) => {
     },
   );
 
-  const ordenar = (currentPosition, data) =>{
-  let dataCopy = [...data];
+  const sortDoctorList = (currentPosition, data) =>{
+    let dataCopy = [...data];
       for(let i = 0; i <dataCopy.length; i++){
-          let dist = calcularDistanciaEntreDosCoordenadas(
-            currentPosition.coords.latitude, 
-            currentPosition.coords.longitude, 
-            data[i].ubicacion.latitude, 
-            data[i].ubicacion.longitude
-          )
-          dataCopy[i] = {...dataCopy[i], dist}
+        let dist = calculateDistanceBetweenTwoCoordinates(
+          currentPosition.coords.latitude, 
+          currentPosition.coords.longitude, 
+          data[i].ubicacion.latitude, 
+          data[i].ubicacion.longitude
+        )
+        dataCopy[i] = {...dataCopy[i], dist}
       }
-      return (_.sortBy(dataCopy, ['dist']));
+    return (_.sortBy(dataCopy, ['dist']));
   }
 
   const [index, setIndex] = React.useState(0);
@@ -283,7 +285,7 @@ const Tabs =({navigation}) => {
         renderScene={ ({ route}) => {
           switch (route.key) {
             case 'first': FirstRoute
-              return(proximityOrder &&<FirstRoute navigation={navigation} test={proximityOrder}/>)
+              return(<FirstRoute currentPosition={currentPosition} navigation={navigation} doctorList={proximityOrder}/>)
             case 'second':
               return <SecondRoute navigation={navigation}/>;
             default:
@@ -293,37 +295,48 @@ const Tabs =({navigation}) => {
         onIndexChange={setIndex}
         initialLayout={{ width: Dimensions.get('window').width }}
         style={styles.container} />
+        <FAB
+          style={styles.fab}
+          color={'white'}
+          label="Open Map"
+          onPress = {
+            () =>{
+                navigation.navigate('Map', {
+                  coordinates: {currentPosition, proximityOrder}
+                }
+              )
+            }
+          }/>
     </>
   );
 }
 
 const FirstRoute = (props) =>{
   const [visible, setVisible] = React.useState(false);
-  const {navigation, test} = props;
-  const dataGroupBy = _.groupBy(test, 'especialidad');
-  //console.log(_.groupBy(test, 'especialidad'));
+  const { currentPosition, doctorList, navigation } = props;
+  const doctorListGroupBy = _.groupBy(doctorList, 'especialidad');
 
   const DoctorList = () => {
-    return Object.keys(dataGroupBy).map((obj, i) => {
-      console.log(obj);
+    return Object.keys(doctorListGroupBy).map((obj, i) => {
         return (
           <>
             <List.Subheader style ={styles.subHeaderList}>{obj}</List.Subheader>
-            {dataGroupBy[obj].map((item) => (
-              <> 
-              <List.Item 
-                title={item.nombre}
-                right={props => <List.Icon {...props} icon={require('./src/usuario.png')}/>}
-                onPress = {
-                  () =>{
+            {doctorListGroupBy[obj].map((item, index) => (
+              <>
+                <List.Item 
+                  key ={index}
+                  title={item.nombre}
+                  right={props => <List.Icon {...props} icon={require('./src/usuario.png')}/>}
+                  onPress = {
+                    () =>{
                       navigation.navigate('Profile', {
-                        user: item
-                      }
-                    )
+                        user: item,
+                        currentPosition: currentPosition
+                      })
+                    }
                   }
-                } 
-              />
-              <Divider/>
+                />
+                <Divider/>
               </>
             ))}
           </>
@@ -374,7 +387,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     color:'white',
     fontSize: 15
-  }
+  },
+  fab: {
+    backgroundColor: '#2196F3',
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
 
 });
 

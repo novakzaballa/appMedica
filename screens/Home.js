@@ -7,21 +7,6 @@ const Home = ({navigation}) => {
     const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    /*const checkPermissions = () => {
-      request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION, {
-        title: "Permission for APP medica Application",
-        message:
-        "For your beautiful pictures, " +
-        "Grant permission to APP medica Application",
-        buttonNeutral: "Not Right Now!",
-        buttonNegative: "Cancel",
-        buttonPositive: "Alright"
-        }).then((result) => {
-        //setPermissionResult(result)
-        console.log(result)
-      });
-    }*/
-
     return(
       <View>
         <View style={homeStyles.view}>

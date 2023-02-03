@@ -6,6 +6,7 @@ import Profile from '../screens/Profile'
 import Tabs from '../screens/tabs'
 import Appointment from '../screens/Appointment'
 import SignUp from '../screens/SignUp'
+import Map from './../screens/Map';
 
 const Stack = createNativeStackNavigator()
 
@@ -64,7 +65,20 @@ const Stacks = () => {
                       fontWeight: 'bold',
                     },
                   }}
-                />             
+                />
+                <Stack.Screen
+                  name='Map'
+                  component={ Map }
+                  options={{
+                    headerStyle: {
+                      backgroundColor: '#E91E63',
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                  }}
+                /> 
             </Stack.Navigator>
         </NavigationContainer>
     )
