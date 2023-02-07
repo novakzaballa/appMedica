@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { Button, FAB, Portal, Text, TextInput } from 'react-native-paper';
-import PhoneVerification from "./components/PhoneVerification";
+//import PhoneVerification from "./components/PhoneVerificatorCopy";
 
 const SignUp = ({navigation}) => {
 
@@ -9,10 +9,35 @@ const SignUp = ({navigation}) => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [phoneComponent, setPhoneComponent] = React.useState(false);
+    const [codeValidationComponent, setCodeValidationComponent] = React.useState(false);
+    const [signUpComponent, setSignUpComponent] = React.useState(true);
 
+    const handlePreviousButton = () =>{
+      if(phoneComponent){
+        setPhoneComponent(false);
+        setSignUpComponent(true);
+      }else if(codeValidationComponent){
+        setCodeValidationComponent(false);
+        setPhoneComponent(false);
+      }
+    }
+    const handleNextButton = () =>{
+      if(phoneComponent){
+        setPhoneComponent(false);
+        setCodeValidationComponent(true);
+      }else if(codeValidationComponent){
+        setCodeValidationComponent(false);
+      }
+    }
+    const handleSignUpButton = () =>{
+      setPhoneComponent(true);
+      setSignUpComponent(false);
+    }
     return(
+      <>
       <View>
-        {phoneComponent && <PhoneVerification/>}
+        {/*honeComponent && <PhoneVerification/>*/}
+        {signUpComponent && <>
         <View style={homeStyles.centerView}>
           <Text variant='headlineLarge'>Create an Account</Text>
           <Text variant='bodySmall'>Sign up with your social media account or email address</Text>
@@ -86,30 +111,24 @@ const SignUp = ({navigation}) => {
           <Button
             style={homeStyles.buttonSignInContainer}
             mode="contained"
-            onPress = {() =>setPhoneComponent(!phoneComponent)}>
+            onPress = {() =>handleSignUpButton()}>
           Sign up
           </Button>
-        </View>
-        {/*<View style={{marginLeft:'15%', marginRight: '15%'}}>
-        <Button
-            style={homeStyles.buttonSignInContainer}
-            mode="contained"
-            onPress = {
-                () =>{
-                    navigation.navigate('Tabs')
-                }}>
-          Sign up
-          </Button>          <Button
-            style={homeStyles.buttonSignInContainer}
-            mode="contained"
-            onPress = {
-                () =>{
-                    navigation.navigate('Tabs')
-                }}>
-          Sign up
-          </Button>
-              </View>*/}
-      </View>   
+        </View></>}
+      </View>
+      {phoneComponent && <><Button
+        style={homeStyles.textButtonLeft}
+        mode="text"
+        onPress = {() =>handlePreviousButton()}>
+      {'< Previous'}
+      </Button>
+      <Button
+        style={homeStyles.textButton}
+        mode="text"
+        onPress = {() =>handleNextButton()}>
+      {codeValidationComponent ? 'finish >' : 'Next >'}
+    </Button></>}    
+    </>
     )
 }
 export default SignUp;
@@ -158,5 +177,17 @@ const homeStyles = StyleSheet.create({
       justifyContent:'center', 
       alignItems:'center',
       marginTop:'5%'
+    },
+    textButton: {
+      position: 'absolute',
+      bottom: 0,
+      margin: 16,
+      right: 0,
+    },
+    textButtonLeft: {
+      position: 'absolute',
+      bottom: 0,
+      margin: 16,
+      left: 0,
     }
   });

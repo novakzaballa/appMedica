@@ -36,7 +36,7 @@ const Home = ({navigation}) => {
             icon={require('./src/google.png')} 
             onPress = {
                 () =>{
-                    navigation.navigate('Tabs')
+                  navigation.navigate('SignUp')
                 }}>
           Sign in with Google
           </Button>

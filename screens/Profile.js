@@ -1,11 +1,13 @@
 import React from 'react';
 import { Avatar, Button, FAB, Modal, Portal, Text } from 'react-native-paper';
 
-import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
+import MapComponent from './components/mapComponent';
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation, route}) => {
     const [visible, setVisible] = React.useState(false);
-
+    const [mapVisibility, setMapVisibility] = React.useState(false);
+    const { currentPosition, user } = route.params;
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
     const DATA = [{id: '1', hour:'15:30'}, {id: '2', hour:'17:00'} , {id: '3', hour:'17:30'}, {id: '4', hour:'18:00'}, {id: '5', hour:'18:30'}];
@@ -15,22 +17,45 @@ const Profile = ({navigation}) => {
         <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
             <Text variant='titleSmall'>What does 'Verified' Means?</Text>
-            <Text variant='bodySmall'>The verified icon means that our customer care staff, have thoroughly validated the identity, credentials, and location, of the doctor or health provider holding this account. Our company validates the above mentioned data when the health provider is registered in our platform for the first time, and once per year. </Text>
+            <Text variant='bodySmall'>The verified icon means that our customer care staff, have thoroughly validated the identity, credentials, and location, of the user or health provider holding this account. Our company validates the above mentioned data when the health provider is registered in our platform for the first time, and once per year. </Text>
             <Button mode='text' onPress={hideModal}>
             Got it
             </Button>
           </Modal>
         </Portal>
-        <View style={styles.container}>
-          {<Avatar.Image size={200} source={require('./src/usuario.png')}/>}
+        {mapVisibility &&<View style={styles.mapContainer}>
+          <MapComponent currentPosition={currentPosition} markerCoordinates={user} isComponent = {true}/>
+          <Button 
+              icon={require('./src/marcador-de-mapa.png')} 
+              mode='contained'
+              onPress = {
+                () =>{
+                  setMapVisibility(false)
+                }
+              } 
+            > 
+          cerrar
+          </Button>
+        </View>}
+        {!mapVisibility && <View style={styles.container}>
+          <Avatar.Image size={200} source={require('./src/usuario.png')}/>
           <Button icon={require('./src/quality.png')} mode='text' onPress={showModal}>
           Verificado
           </Button>
-          <Text variant='titleLarge'>Dr. Fernando Paniagua</Text>
-          <Text variant='bodyMedium'>Pediatra</Text>
-          <Button icon={require('./src/marcador-de-mapa.png')} mode='text' onPress={showModal}>
-          250ft (Tap here to see the doctors's office location.)
-          </Button>
+          <Text variant='titleLarge'>{user.nombre}</Text>
+          <Text variant='bodyMedium'>{user.especialidad}</Text>
+          {user.dist&&
+          <Button 
+            icon={require('./src/marcador-de-mapa.png')} 
+            mode='text'
+            onPress = {
+              () =>{
+                setMapVisibility(true)
+              }
+            } 
+          > 
+          {user.dist.toFixed(2)}Km. (Tap here to see the users's office location.)
+          </Button>}
           <Text variant='bodyMedium'>Dr. Paniagua has extensive experience in pediatrics. He coursed his major in UMSA, La Paz Bolivia, while completed his specialty in UNAM, Mexico D.F.</Text>
           <SafeAreaView style={styles.container2}>
           <Text variant='titleSmall'>Today's availability</Text>
@@ -45,7 +70,7 @@ const Profile = ({navigation}) => {
               keyExtractor={item => item.id}
             />
           </SafeAreaView>
-        </View>
+        </View>}
         <FAB
           style={styles.fab}
           color={'white'}
@@ -93,6 +118,13 @@ const styles = StyleSheet.create({
       margin: 16,
       right: 0,
       bottom: 0,
+    },
+    mapContainer: {
+      ...StyleSheet.absoluteFillObject,
+      height: 500,
+      width: 400,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
     },
 
   });
