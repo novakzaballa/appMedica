@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, StatusBar, ScrollView, SegmentedButtons} from 'react-native';
-import { Button, Divider, FAB, Modal, Portal, Searchbar, Text, List } from 'react-native-paper';
+import { Avatar, Button, Card, Divider, FAB, Modal, Portal, Text, List } from 'react-native-paper';
 import { TabView } from 'react-native-tab-view';
 import { AlphabetList } from "react-native-section-alphabet-list";
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
@@ -17,7 +17,8 @@ const data = [
       "longitude": -66.151931,
       "city": "Madrid",
       "description": "Puerta del Sol"
-    }
+    },
+    'verified': true
   },
   { "value": "Emmanuel  Gazmey", 
     "key": "TXdL0c2",
@@ -28,7 +29,8 @@ const data = [
       "longitude": -68.128196,
       "city": "La paz",
       "description": "Puerta del Sol"
-    }
+    },
+    'verified': true
   },
   { "value": "Jose Osorio",
     "nombre": "Jose Osorio", 
@@ -39,7 +41,8 @@ const data = [
       "longitude": -68.126992,
       "city": "La paz",
       "description": "Isabel la Catolica"
-    }
+    },
+    'verified': true
   },
   { "value": "Emma Lunas",
     "nombre": "Emma Lunas", 
@@ -74,7 +77,8 @@ const data = [
       "longitude": -68.109590,
       "city": "La paz",
       "description": "Obrahjes calle 6"
-    }
+    },
+    'verified': true
   },
   { 
     "value": "Juan Perez",
@@ -98,7 +102,8 @@ const data = [
       "longitude": -68.127458,
       "city": "La paz",
       "description": "Av. 6 de Agosto"
-    }
+    },
+    'verified': true
   },
   { 
     "value": "Juan Lordoño",
@@ -110,7 +115,8 @@ const data = [
       "longitude": -68.124245,
       "city": "La paz",
       "description": "Stadium"
-    }
+    },
+    'verified': true
   },
   { 
     "value": "Benito Martinez",
@@ -122,7 +128,8 @@ const data = [
       "longitude": -68.120763,
       "city": "La paz",
       "description": "Av. busch Triangular"
-    }
+    },
+    'verified': true
   },
   { 
     "value": "Paola Vera",
@@ -159,19 +166,28 @@ const SecondRoute = ({navigation}) => (
       }}
       renderCustomItem={(item) => (
         <>
-          <List.Item
-            title={item.nombre}
-            right={props => <List.Icon {...props} icon={require('./src/usuario.png')}/>}
+          <Card
+            mode='elevated' 
+            style={styles.cardCoverView}
             onPress = {
               () =>{
-                  navigation.navigate('Profile', {
-                    user: item
-                  }
-                )
+                navigation.navigate('Profile', {
+                  user: item
+                })
               }
-            } 
-          />
-          <Divider/>
+            }
+          >
+            <Card.Content style={styles.cardContent}>
+                <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={styles.cardCover}/>
+              <View style={styles.textsView}>
+                <Text variant="titleLarge">{item.nombre}{item.verified && 
+                  <Button style={styles.verified} icon={require('./src/quality.png')} mode='text'/>}
+                </Text>
+                <Text variant="bodyMedium">{item.especialidad}</Text>
+                <Text variant="bodyMedium">{item.ubicacion.description}</Text>
+              </View>
+            </Card.Content>
+          </Card>
         </>
       )}
     />
@@ -277,9 +293,6 @@ const Tabs =({navigation}) => {
 
   return (
     <>
-      <Searchbar
-          placeholder="Search Health Professionals..."
-          icon={require('./src/busqueda.png')} />
       <TabView
         navigationState={{ index, routes }}
         renderScene={ ({ route}) => {
@@ -320,24 +333,29 @@ const FirstRoute = (props) =>{
     return Object.keys(doctorListGroupBy).map((obj, i) => {
         return (
           <>
-            <List.Subheader style ={styles.subHeaderList}>{obj}</List.Subheader>
+           {<List.Subheader style ={styles.subHeaderList}>{obj}</List.Subheader>}
             {doctorListGroupBy[obj].map((item, index) => (
-              <>
-                <List.Item 
-                  key ={index}
-                  title={item.nombre}
-                  right={props => <List.Icon {...props} icon={require('./src/usuario.png')}/>}
-                  onPress = {
-                    () =>{
-                      navigation.navigate('Profile', {
-                        user: item,
-                        currentPosition: currentPosition
-                      })
-                    }
+              <Card
+                mode='elevated' 
+                style={styles.cardCoverView}
+                onPress = {
+                  () =>{
+                    navigation.navigate('Profile', {
+                      user: item,
+                      currentPosition: currentPosition
+                    })
                   }
-                />
-                <Divider/>
-              </>
+                }
+              >
+                <Card.Content style={styles.cardContent}>
+                    <Card.Cover src={{uri:'https://picsum.photos/200'}} style={styles.cardCover}/>
+                  <View style={styles.textsView}>
+                    <Text variant="titleLarge">{item.nombre}</Text>
+                    <Text variant="bodyMedium">{item.especialidad}</Text>
+                    <Text variant="bodyMedium">{item.ubicacion.description}</Text>
+                  </View>
+                </Card.Content>
+              </Card>
             ))}
           </>
         )
@@ -369,19 +387,8 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 14,
   },
-  sectionHeaderContainer: {
-    backgroundColor: 'gray',
-    justifyContent: 'center',
-  },
-
   sectionHeaderLabel: {
     color: '#000',
-  },
-  container2: {
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-    alignItems: 'center',
-    marginTop:'15%'
   },
   subHeaderList:{
     backgroundColor: 'gray',
@@ -395,7 +402,24 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-
+  cardContent: {
+    flexDirection: 'row'
+  },
+  cardCover: {
+    height: 100,
+    width: 100,
+  },
+  textsView: {
+    margin:10
+  },
+  cardCoverView:{
+    backgroundColor: '#1CB6D2',
+    margin: 10
+  },
+  verified:{
+    padding:0,
+    margin:0
+  }
 });
 
 export default Tabs;
