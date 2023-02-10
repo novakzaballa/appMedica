@@ -1,3 +1,6 @@
+/**
+ * appMedica colors.
+ */
 const Colors =
 {
     BLACK: '#000000',

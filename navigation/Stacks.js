@@ -19,12 +19,14 @@ const Stacks = () => {
                   component={ Home }
                   options={{
                     headerStyle: {
-                      backgroundColor: '#FF8B00',
+                      backgroundColor: Colors.PRIMARY_BLUE
                     },
                     headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
                     },
+                    title: 'Log In'
+                    //headerShown: false 
                   }}
                 />
                 <Stack.Screen

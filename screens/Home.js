@@ -1,6 +1,7 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Button, FAB, Portal, TextInput } from 'react-native-paper';
+import Colors from './src/utilitis/Colors';
 
 const Home = ({navigation}) => {
 
@@ -11,16 +12,6 @@ const Home = ({navigation}) => {
       <View>
         <View style={homeStyles.view}>
           <Button
-            style={homeStyles.buttonFacebookContainer}
-            mode="contained"
-            icon={require('./src/facebook.png')} 
-            onPress = {
-                () =>{
-                    navigation.navigate('Tabs')
-                }}>
-            Sign in with Facebook
-          </Button>
-          <Button
             style={homeStyles.buttonTwitterContainer}
             mode="contained"
             icon={require('./src/twitter.png')} 
@@ -30,16 +21,6 @@ const Home = ({navigation}) => {
                 }}>
             Sign in with Twitter
           </Button>
-          <Button
-            style={homeStyles.buttonGoogleContainer}
-            mode="contained"
-            icon={require('./src/google.png')} 
-            onPress = {
-                () =>{
-                  navigation.navigate('SignUp')
-                }}>
-          Sign in with Google
-          </Button>
           <Text style={homeStyles.circle}>Or</Text>
         </View>
         <View style={{marginLeft:'15%', marginRight: '15%'}}>
@@ -47,6 +28,7 @@ const Home = ({navigation}) => {
             label="Username"
             mode={'outlined'}
             outlineStyle={homeStyles.textInput}
+            activeOutlineColor={Colors.SECUNDARY_BLUE}
             value={userName}
             onChangeText={userName => setUserName(userName)}
           />
@@ -55,6 +37,7 @@ const Home = ({navigation}) => {
             mode={'outlined'}
             secureTextEntry={true}
             outlineStyle={homeStyles.textInput}
+            activeOutlineColor={Colors.SECUNDARY_BLUE}
             value={password}
             onChangeText={password => setPassword(password)}
           />
@@ -110,6 +93,7 @@ const homeStyles = StyleSheet.create({
     },
     textInput:{
       borderRadius: 100,
+      borderColor: '#2196F3'
     },
     buttonText:{
       color: "black"
