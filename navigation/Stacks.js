@@ -7,7 +7,7 @@ import Tabs from '../screens/tabs'
 import Appointment from '../screens/Appointment'
 import SignUp from '../screens/SignUp'
 import Map from './../screens/Map';
-
+import Colors from '../screens/src/utilitis/Colors'
 const Stack = createNativeStackNavigator()
 
 const Stacks = () => {
@@ -21,7 +21,7 @@ const Stacks = () => {
                     headerStyle: {
                       backgroundColor: '#FF8B00',
                     },
-                    headerTintColor: '#fff',
+                    headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
                     },
@@ -32,9 +32,9 @@ const Stacks = () => {
                   component={ Profile }
                   options={{
                     headerStyle: {
-                      backgroundColor: '#E91E63',
+                      backgroundColor: Colors.PRIMARY_BLUE,
                     },
-                    headerTintColor: '#fff',
+                    headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
                     },
@@ -45,9 +45,9 @@ const Stacks = () => {
                   component={ Tabs }
                   options={{
                     headerStyle: {
-                      backgroundColor: '#E91E63',
+                      backgroundColor: Colors.PRIMARY_BLUE,
                     },
-                    headerTintColor: '#fff',
+                    headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
                     },
@@ -58,9 +58,9 @@ const Stacks = () => {
                   component={ SignUp }
                   options={{
                     headerStyle: {
-                      backgroundColor: '#E91E63',
+                      backgroundColor: Colors.PRIMARY_BLUE,
                     },
-                    headerTintColor: '#fff',
+                    headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
                     },
@@ -71,14 +71,28 @@ const Stacks = () => {
                   component={ Map }
                   options={{
                     headerStyle: {
-                      backgroundColor: '#E91E63',
+                      backgroundColor: Colors.PRIMARY_BLUE,
                     },
-                    headerTintColor: '#fff',
+                    headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
                     },
                   }}
-                /> 
+                />
+                <Stack.Screen
+                  name='Appointment'
+                  component={ Appointment }
+                  options={{
+                    headerStyle: {
+                      backgroundColor: Colors.PRIMARY_BLUE,
+                      title: 'New Appointment'
+                    },
+                    headerTintColor: Colors.WHITE,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                  }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )
