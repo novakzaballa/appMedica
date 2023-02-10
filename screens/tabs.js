@@ -6,12 +6,13 @@ import { AlphabetList } from "react-native-section-alphabet-list";
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
 import _ from 'lodash';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const data = [
   { "value": "Michael Torrez",
     "nombre": "Michael Torrez", 
     "key": "lCUTs2",
-    "especialidad": "Traumatologo",
+    "especialidad": "Traumatologia",
     "ubicacion": {
       "latitude": -17.397819,
       "longitude": -66.151931,
@@ -23,7 +24,7 @@ const data = [
   { "value": "Emmanuel  Gazmey", 
     "key": "TXdL0c2",
     "nombre": "Emmanuel  Gazmey",
-    "especialidad": "Pediatra",
+    "especialidad": "Pediatria",
     "ubicacion": {
       "latitude": -16.512764, 
       "longitude": -68.128196,
@@ -35,7 +36,7 @@ const data = [
   { "value": "Jose Osorio",
     "nombre": "Jose Osorio", 
     "key": "TXdLeaav0c2",
-    "especialidad": "Oncologo",
+    "especialidad": "Oncologia",
     "ubicacion": {
       "latitude": -16.508423,
       "longitude": -68.126992,
@@ -47,7 +48,7 @@ const data = [
   { "value": "Emma Lunas",
     "nombre": "Emma Lunas", 
     "key": "TXzddL0c",
-    "especialidad": "Traumatologo",
+    "especialidad": "Traumatologia",
     "ubicacion": {
       "latitude": -16.496981,
       "longitude": -68.121777,
@@ -59,7 +60,7 @@ const data = [
     "value": "Ester Soliz",
     "nombre": "Ester Soliz",
     "key": "TXsdLsg0c",
-    "especialidad": "Gastroenterologa",
+    "especialidad": "Gastroenterologia",
     "ubicacion": {
       "latitude": -16.487284,
       "longitude": -68.121897,
@@ -71,7 +72,7 @@ const data = [
     "value": "Jesus Cortez",
     "nombre": "Jesus Cortez",
     "key": "TXdLc0c",
-    "especialidad": "Nefrologo",
+    "especialidad": "Nefrologia",
     "ubicacion": {
       "latitude": -16.525448,
       "longitude": -68.109590,
@@ -84,7 +85,7 @@ const data = [
     "value": "Juan Perez",
     "nombre": "Juan Perez",
     "key": "psg2PM",
-    "especialidad": "Pediatra",
+    "especialidad": "Pediatria",
     "ubicacion": {
       "latitude": -16.496524,
       "longitude": -68.144174,
@@ -96,7 +97,7 @@ const data = [
     "value": "Salomon Villada",
     "nombre": "Salomon Villada", 
     "key": "zqsiEw2",
-    "especialidad": "Neurologo",
+    "especialidad": "Neurologia",
     "ubicacion": {
       "latitude": -16.507763,
       "longitude": -68.127458,
@@ -109,7 +110,7 @@ const data = [
     "value": "Juan Lordoño",
     "nombre": "Juan Lordoño",
     "key": "zqsiE2w3",
-    "especialidad": "Cardiologo",
+    "especialidad": "Cardiologia",
     "ubicacion": {
       "latitude": -16.497555,
       "longitude": -68.124245,
@@ -135,7 +136,7 @@ const data = [
     "value": "Paola Vera",
     "nombre": "Paola Vera",
     "key": "zqsiEw5",
-    "especialidad": "Gastroenterologo",
+    "especialidad": "Gastroenterologia",
     "ubicacion": {
       "latitude": -16.509244,
       "longitude": -68.119179,
@@ -328,12 +329,29 @@ const FirstRoute = (props) =>{
   const [visible, setVisible] = React.useState(false);
   const { currentPosition, doctorList, navigation } = props;
   const doctorListGroupBy = _.groupBy(doctorList, 'especialidad');
+  console.log('Object.keys(doctorListGroupBy):', Object.keys(doctorListGroupBy));
 
-  const DoctorList = () => {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState();
+  const [items, setItems] = React.useState([
+    {label: 'Ginecologo', value: 'Ginecologo'},
+    {label: 'Traumatologia', value: 'Traumatologia'},
+    {label: 'Cardiologia', value: 'Cardiologia'},
+
+    {label: 'Gastroenterologia', value: 'Gastroenterologia'},
+    {label: 'Medico General', value: 'Medico General'},
+
+    {label: 'Neurologia', value: 'Neurologia'},
+    {label: 'Pediatria', value: 'Pediatria'},
+    {label: 'Oncologia', value: 'Oncologia'},
+    {label: 'Nefrologia', value: 'Nefrologia'}
+  ]);
+
+  const DoctorList = (value) => {
+    console.log('DEBUG:', value.value[0]);
     return Object.keys(doctorListGroupBy).map((obj, i) => {
         return (
           <>
-           {<List.Subheader style ={styles.subHeaderList}>{obj}</List.Subheader>}
             {doctorListGroupBy[obj].map((item, index) => (
               <Card
                 mode='elevated' 
@@ -348,7 +366,7 @@ const FirstRoute = (props) =>{
                 }
               >
                 <Card.Content style={styles.cardContent}>
-                    <Card.Cover src={{uri:'https://picsum.photos/200'}} style={styles.cardCover}/>
+                    <Card.Cover source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.cardCover}/>
                   <View style={styles.textsView}>
                     <Text variant="titleLarge">{item.nombre}</Text>
                     <Text variant="bodyMedium">{item.especialidad}</Text>
@@ -363,9 +381,25 @@ const FirstRoute = (props) =>{
   }
 
   return(
-    <ScrollView style={[styles.scene, { backgroundColor: '#fff' }]} >
-      <DoctorList/>
-    </ScrollView>
+    <View style={styles.dropDownContainer}>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        min={0}
+        max={1}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        theme="LIGHT"
+        multiple={true}
+        mode="BADGE"
+        badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+      />
+      <ScrollView style={[styles.scene, { backgroundColor: '#fff' }]} >
+        {<DoctorList value={value}/>}
+      </ScrollView>
+    </View>
   );
 }
 
@@ -419,6 +453,10 @@ const styles = StyleSheet.create({
   verified:{
     padding:0,
     margin:0
+  },
+  dropDownContainer:{
+    backgroundColor: '#FFF',
+    flex: 1
   }
 });
 
