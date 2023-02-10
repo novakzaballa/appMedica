@@ -1,50 +1,54 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, StatusBar, ScrollView, SegmentedButtons} from 'react-native';
-import { Button, Divider, FAB, Modal, Portal, Searchbar, Text, List } from 'react-native-paper';
+import { Avatar, Button, Card, Divider, FAB, Modal, Portal, Text, List } from 'react-native-paper';
 import { TabView } from 'react-native-tab-view';
 import { AlphabetList } from "react-native-section-alphabet-list";
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
 import _ from 'lodash';
+import { SelectList } from 'react-native-dropdown-select-list'
 
 const data = [
   { "value": "Michael Torrez",
     "nombre": "Michael Torrez", 
     "key": "lCUTs2",
-    "especialidad": "Traumatologo",
+    "especialidad": "Traumatologia",
     "ubicacion": {
       "latitude": -17.397819,
       "longitude": -66.151931,
       "city": "Madrid",
       "description": "Puerta del Sol"
-    }
+    },
+    'verified': true
   },
   { "value": "Emmanuel  Gazmey", 
     "key": "TXdL0c2",
     "nombre": "Emmanuel  Gazmey",
-    "especialidad": "Pediatra",
+    "especialidad": "Pediatria",
     "ubicacion": {
       "latitude": -16.512764, 
       "longitude": -68.128196,
       "city": "La paz",
       "description": "Puerta del Sol"
-    }
+    },
+    'verified': true
   },
   { "value": "Jose Osorio",
     "nombre": "Jose Osorio", 
     "key": "TXdLeaav0c2",
-    "especialidad": "Oncologo",
+    "especialidad": "Oncologia",
     "ubicacion": {
       "latitude": -16.508423,
       "longitude": -68.126992,
       "city": "La paz",
       "description": "Isabel la Catolica"
-    }
+    },
+    'verified': true
   },
   { "value": "Emma Lunas",
     "nombre": "Emma Lunas", 
     "key": "TXzddL0c",
-    "especialidad": "Traumatologo",
+    "especialidad": "Traumatologia",
     "ubicacion": {
       "latitude": -16.496981,
       "longitude": -68.121777,
@@ -56,7 +60,7 @@ const data = [
     "value": "Ester Soliz",
     "nombre": "Ester Soliz",
     "key": "TXsdLsg0c",
-    "especialidad": "Gastroenterologa",
+    "especialidad": "Gastroenterologia",
     "ubicacion": {
       "latitude": -16.487284,
       "longitude": -68.121897,
@@ -68,19 +72,20 @@ const data = [
     "value": "Jesus Cortez",
     "nombre": "Jesus Cortez",
     "key": "TXdLc0c",
-    "especialidad": "Nefrologo",
+    "especialidad": "Nefrologia",
     "ubicacion": {
       "latitude": -16.525448,
       "longitude": -68.109590,
       "city": "La paz",
       "description": "Obrahjes calle 6"
-    }
+    },
+    'verified': true
   },
   { 
     "value": "Juan Perez",
     "nombre": "Juan Perez",
     "key": "psg2PM",
-    "especialidad": "Pediatra",
+    "especialidad": "Pediatria",
     "ubicacion": {
       "latitude": -16.496524,
       "longitude": -68.144174,
@@ -92,25 +97,27 @@ const data = [
     "value": "Salomon Villada",
     "nombre": "Salomon Villada", 
     "key": "zqsiEw2",
-    "especialidad": "Neurologo",
+    "especialidad": "Neurologia",
     "ubicacion": {
       "latitude": -16.507763,
       "longitude": -68.127458,
       "city": "La paz",
       "description": "Av. 6 de Agosto"
-    }
+    },
+    'verified': true
   },
   { 
     "value": "Juan Lordoño",
     "nombre": "Juan Lordoño",
     "key": "zqsiE2w3",
-    "especialidad": "Cardiologo",
+    "especialidad": "Cardiologia",
     "ubicacion": {
       "latitude": -16.497555,
       "longitude": -68.124245,
       "city": "La paz",
       "description": "Stadium"
-    }
+    },
+    'verified': true
   },
   { 
     "value": "Benito Martinez",
@@ -122,13 +129,14 @@ const data = [
       "longitude": -68.120763,
       "city": "La paz",
       "description": "Av. busch Triangular"
-    }
+    },
+    'verified': true
   },
   { 
     "value": "Paola Vera",
     "nombre": "Paola Vera",
     "key": "zqsiEw5",
-    "especialidad": "Gastroenterologo",
+    "especialidad": "Gastroenterologia",
     "ubicacion": {
       "latitude": -16.509244,
       "longitude": -68.119179,
@@ -159,19 +167,28 @@ const SecondRoute = ({navigation}) => (
       }}
       renderCustomItem={(item) => (
         <>
-          <List.Item
-            title={item.nombre}
-            right={props => <List.Icon {...props} icon={require('./src/usuario.png')}/>}
+          <Card
+            mode='elevated' 
+            style={styles.cardCoverView}
             onPress = {
               () =>{
-                  navigation.navigate('Profile', {
-                    user: item
-                  }
-                )
+                navigation.navigate('Profile', {
+                  user: item
+                })
               }
-            } 
-          />
-          <Divider/>
+            }
+          >
+            <Card.Content style={styles.cardContent}>
+                <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={styles.cardCover}/>
+              <View style={styles.textsView}>
+                <Text variant="titleLarge">{item.nombre}{item.verified && 
+                  <Button style={styles.verified} icon={require('./src/quality.png')} mode='text'/>}
+                </Text>
+                <Text variant="bodyMedium">{item.especialidad}</Text>
+                <Text variant="bodyMedium">{item.ubicacion.description}</Text>
+              </View>
+            </Card.Content>
+          </Card>
         </>
       )}
     />
@@ -277,9 +294,6 @@ const Tabs =({navigation}) => {
 
   return (
     <>
-      <Searchbar
-          placeholder="Search Health Professionals..."
-          icon={require('./src/busqueda.png')} />
       <TabView
         navigationState={{ index, routes }}
         renderScene={ ({ route}) => {
@@ -315,39 +329,69 @@ const FirstRoute = (props) =>{
   const [visible, setVisible] = React.useState(false);
   const { currentPosition, doctorList, navigation } = props;
   const doctorListGroupBy = _.groupBy(doctorList, 'especialidad');
+  console.log('Object.keys(doctorListGroupBy):', Object.keys(doctorListGroupBy));
+
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState();
+  
+  const data = [
+    {key: 'Ginecologo', value: 'Ginecologo'},
+    {key: 'Traumatologia', value: 'Traumatologia'},
+    {key: 'Cardiologia', value: 'Cardiologia'},
+
+    {key: 'Gastroenterologia', value: 'Gastroenterologia'},
+    {key: 'Medico General', value: 'Medico General'},
+
+    {key: 'Neurologia', value: 'Neurologia'},
+    {key: 'Pediatria', value: 'Pediatria'},
+    {key: 'Oncologia', value: 'Oncologia'},
+    {key: 'Nefrologia', value: 'Nefrologia'}
+  ]
 
   const DoctorList = () => {
     return Object.keys(doctorListGroupBy).map((obj, i) => {
+      if(obj === selected){
         return (
           <>
-            <List.Subheader style ={styles.subHeaderList}>{obj}</List.Subheader>
-            {doctorListGroupBy[obj].map((item, index) => (
-              <>
-                <List.Item 
-                  key ={index}
-                  title={item.nombre}
-                  right={props => <List.Icon {...props} icon={require('./src/usuario.png')}/>}
-                  onPress = {
-                    () =>{
-                      navigation.navigate('Profile', {
-                        user: item,
-                        currentPosition: currentPosition
-                      })
-                    }
+            {doctorListGroupBy[selected].map((item, index) => (
+              <Card
+                mode='elevated' 
+                style={styles.cardCoverView}
+                onPress = {
+                  () =>{
+                    navigation.navigate('Profile', {
+                      user: item,
+                      currentPosition: currentPosition
+                    })
                   }
-                />
-                <Divider/>
-              </>
+                }
+              >
+                <Card.Content style={styles.cardContent}>
+                    <Card.Cover source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.cardCover}/>
+                  <View style={styles.textsView}>
+                    <Text variant="titleLarge">{item.nombre}</Text>
+                    <Text variant="bodyMedium">{item.especialidad}</Text>
+                    <Text variant="bodyMedium">{item.ubicacion.description}</Text>
+                  </View>
+                </Card.Content>
+              </Card>
             ))}
           </>
-        )
+        )}
     })
   }
 
   return(
-    <ScrollView style={[styles.scene, { backgroundColor: '#fff' }]} >
-      <DoctorList/>
-    </ScrollView>
+    <View style={styles.dropDownContainer}>
+    <SelectList 
+        setSelected={(val) => setSelected(val)} 
+        data={data} 
+        save="value"
+    />
+      <ScrollView style={[styles.scene, { backgroundColor: '#fff' }]} >
+        {selected && <DoctorList/>}
+      </ScrollView>
+    </View>
   );
 }
 
@@ -369,19 +413,8 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 14,
   },
-  sectionHeaderContainer: {
-    backgroundColor: 'gray',
-    justifyContent: 'center',
-  },
-
   sectionHeaderLabel: {
     color: '#000',
-  },
-  container2: {
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-    alignItems: 'center',
-    marginTop:'15%'
   },
   subHeaderList:{
     backgroundColor: 'gray',
@@ -395,7 +428,28 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-
+  cardContent: {
+    flexDirection: 'row'
+  },
+  cardCover: {
+    height: 100,
+    width: 100,
+  },
+  textsView: {
+    margin:10
+  },
+  cardCoverView:{
+    backgroundColor: '#1CB6D2',
+    margin: 10
+  },
+  verified:{
+    padding:0,
+    margin:0
+  },
+  dropDownContainer:{
+    backgroundColor: '#FFF',
+    flex: 1
+  }
 });
 
 export default Tabs;
