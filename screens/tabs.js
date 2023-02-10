@@ -6,7 +6,7 @@ import { AlphabetList } from "react-native-section-alphabet-list";
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
 import _ from 'lodash';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { SelectList } from 'react-native-dropdown-select-list'
 
 const data = [
   { "value": "Michael Torrez",
@@ -332,27 +332,28 @@ const FirstRoute = (props) =>{
   console.log('Object.keys(doctorListGroupBy):', Object.keys(doctorListGroupBy));
 
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState();
-  const [items, setItems] = React.useState([
-    {label: 'Ginecologo', value: 'Ginecologo'},
-    {label: 'Traumatologia', value: 'Traumatologia'},
-    {label: 'Cardiologia', value: 'Cardiologia'},
+  const [selected, setSelected] = React.useState();
+  
+  const data = [
+    {key: 'Ginecologo', value: 'Ginecologo'},
+    {key: 'Traumatologia', value: 'Traumatologia'},
+    {key: 'Cardiologia', value: 'Cardiologia'},
 
-    {label: 'Gastroenterologia', value: 'Gastroenterologia'},
-    {label: 'Medico General', value: 'Medico General'},
+    {key: 'Gastroenterologia', value: 'Gastroenterologia'},
+    {key: 'Medico General', value: 'Medico General'},
 
-    {label: 'Neurologia', value: 'Neurologia'},
-    {label: 'Pediatria', value: 'Pediatria'},
-    {label: 'Oncologia', value: 'Oncologia'},
-    {label: 'Nefrologia', value: 'Nefrologia'}
-  ]);
+    {key: 'Neurologia', value: 'Neurologia'},
+    {key: 'Pediatria', value: 'Pediatria'},
+    {key: 'Oncologia', value: 'Oncologia'},
+    {key: 'Nefrologia', value: 'Nefrologia'}
+  ]
 
-  const DoctorList = (value) => {
-    console.log('DEBUG:', value.value[0]);
+  const DoctorList = () => {
     return Object.keys(doctorListGroupBy).map((obj, i) => {
+      if(obj === selected){
         return (
           <>
-            {doctorListGroupBy[obj].map((item, index) => (
+            {doctorListGroupBy[selected].map((item, index) => (
               <Card
                 mode='elevated' 
                 style={styles.cardCoverView}
@@ -376,28 +377,19 @@ const FirstRoute = (props) =>{
               </Card>
             ))}
           </>
-        )
+        )}
     })
   }
 
   return(
     <View style={styles.dropDownContainer}>
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={items}
-        min={0}
-        max={1}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        theme="LIGHT"
-        multiple={true}
-        mode="BADGE"
-        badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
-      />
+    <SelectList 
+        setSelected={(val) => setSelected(val)} 
+        data={data} 
+        save="value"
+    />
       <ScrollView style={[styles.scene, { backgroundColor: '#fff' }]} >
-        {<DoctorList value={value}/>}
+        {selected && <DoctorList/>}
       </ScrollView>
     </View>
   );
