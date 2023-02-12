@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import com.appmedica.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.zoontek.rnpermissions.RNPermissionsPackage;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -30,7 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           packages.add(new RNPermissionsPackage());
-          packages.add(new VectorIconsPackage()());
+          packages.add(new VectorIconsPackage());
           return packages;
         }
 

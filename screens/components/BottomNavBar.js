@@ -34,7 +34,7 @@ class BottomNavBar extends Component<Props, *> {
      * @inheritdoc
      * @returns {ReactElement}
      */
-    render() {
+    render() {/*
 
         const { t, selected } = this.props;
 
@@ -70,7 +70,7 @@ class BottomNavBar extends Component<Props, *> {
                 </View>
             </View>
         );
-    }
+                        */}
 
 
     _onNavigate: () => void;

@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, StatusBar, ScrollView } from 'react-native';
-import { Button, Card, FAB, Text } from 'react-native-paper';
+import { BottomNavigation, Button, Card, FAB, Text } from 'react-native-paper';
 import { TabView } from 'react-native-tab-view';
 import { AlphabetList } from "react-native-section-alphabet-list";
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import _ from 'lodash';
 import { SelectList } from 'react-native-dropdown-select-list'
+import Icon from 'react-native-vector-icons/AntDesign';
+import Colors from './src/utilitis/Colors';
 
 const data = [
   { "value": "Michael Torrez",
@@ -157,43 +159,10 @@ const data = [
       } 
   }
 ]
-const SecondRoute = ({navigation}) => (
-  <View style={[styles.scene, { backgroundColor: '#fff' }]}>
-    <AlphabetList
-      data={data}
-      indexLetterStyle={{ 
-        color: 'blue', 
-        fontSize:15,
-      }}
-      renderCustomItem={(item) => (
-        <>
-          <Card
-            mode='elevated' 
-            style={styles.cardCoverView}
-            onPress = {
-              () =>{
-                navigation.navigate('Profile', {
-                  user: item
-                })
-              }
-            }
-          >
-            <Card.Content style={styles.cardContent}>
-                <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={styles.cardCover}/>
-              <View style={styles.textsView}>
-                <Text variant="titleLarge">{item.nombre}{item.verified && 
-                  <Button style={styles.verified} icon={require('./src/quality.png')} mode='text'/>}
-                </Text>
-                <Text variant="bodyMedium">{item.especialidad}</Text>
-                <Text variant="bodyMedium">{item.ubicacion.description}</Text>
-              </View>
-            </Card.Content>
-          </Card>
-        </>
-      )}
-    />
-  </View>
-);
+
+const CheckIcon =(props) => {
+  return <Icon name="checkcircle" size={22} color={Colors.PRIMARY_BLUE} solid />;
+}
 
 const Tabs =({navigation}) => {
 
@@ -308,7 +277,7 @@ const Tabs =({navigation}) => {
         }}
         onIndexChange={setIndex}
         initialLayout={{ width: Dimensions.get('window').width }}
-        style={styles.container} />
+        />
         <FAB
           style={styles.fab}
           color={'white'}
@@ -369,7 +338,10 @@ const FirstRoute = (props) =>{
                 <Card.Content style={styles.cardContent}>
                   <Card.Cover source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.cardCover}/>
                   <View style={styles.textsView}>
-                    <Text variant="titleLarge">{item.nombre}</Text>
+                    <View  style={styles.cardContent}>
+                      <Text variant="titleLarge">{item.nombre}  </Text>
+                      {item.verified && <CheckIcon/>}
+                    </View>
                     <Text variant="bodyMedium">{item.especialidad}</Text>
                     <Text variant="bodyMedium">{item.ubicacion.description}</Text>
                   </View>
@@ -397,11 +369,46 @@ const FirstRoute = (props) =>{
   );
 }
 
+const SecondRoute = ({navigation}) => (
+  <View style={[styles.scene]}>
+    <AlphabetList
+      data={data}
+      indexLetterStyle={{ 
+        color: 'blue', 
+        fontSize:15,
+      }}
+      renderCustomItem={(item) => (
+        <>
+          <Card
+            mode='elevated' 
+            style={styles.cardCoverView}
+            onPress = {
+              () =>{
+                navigation.navigate('Profile', {
+                  user: item
+                })
+              }
+            }
+          >
+            <Card.Content style={styles.cardContent}>
+                <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={styles.cardCover}/>
+              <View style={styles.textsView}>
+                <Text variant="titleLarge">{item.nombre}  {item.verified && 
+                <CheckIcon/>}
+                </Text>
+                <Text variant="bodyMedium">{item.especialidad}</Text>
+                <Text variant="bodyMedium">{item.ubicacion.description}</Text>
+              </View>
+            </Card.Content>
+          </Card>
+        </>
+      )}
+    />
+  </View>
+);
+
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: StatusBar.currentHeight,
-  },
   scene: {
     flex: 1,
     backgroundColor: '#E6EEF2'

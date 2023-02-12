@@ -8,12 +8,27 @@ import Appointment from '../screens/Appointment'
 import SignUp from '../screens/SignUp'
 import Map from './../screens/Map';
 import Colors from '../screens/src/utilitis/Colors'
+import LogIn from './../screens/LogIn';
 const Stack = createNativeStackNavigator()
 
 const Stacks = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+                <Stack.Screen
+                  name='LogIn'
+                  component={ LogIn }
+                  options={{
+                    headerStyle: {
+                      backgroundColor: Colors.PRIMARY_BLUE,
+                      title: 'Log In'
+                    },
+                    headerTintColor: Colors.WHITE,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                  }}
+                />
                 <Stack.Screen
                   name='Home'
                   component={ Home }
@@ -24,8 +39,7 @@ const Stacks = () => {
                     headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
-                    },
-                    title: 'Log In'
+                    }
                     //headerShown: false 
                   }}
                 />
