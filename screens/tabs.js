@@ -161,7 +161,7 @@ const data = [
 ]
 
 const CheckIcon =(props) => {
-  return <Icon name="checkcircle" size={22} color={Colors.PRIMARY_BLUE} solid />;
+  return <Icon name='checkcircle' size={22} color={Colors.PRIMARY_BLUE} solid />;
 }
 
 const Tabs =({navigation}) => {
@@ -281,7 +281,7 @@ const Tabs =({navigation}) => {
         <FAB
           style={styles.fab}
           color={'white'}
-          label="Open Map"
+          icon='map'
           onPress = {
             () =>{
                 navigation.navigate('Map', {
@@ -339,11 +339,11 @@ const FirstRoute = (props) =>{
                   <Card.Cover source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.cardCover}/>
                   <View style={styles.textsView}>
                     <View  style={styles.cardContent}>
-                      <Text variant="titleLarge">{item.nombre}  </Text>
+                      <Text variant='titleLarge'>{item.nombre}  </Text>
                       {item.verified && <CheckIcon/>}
                     </View>
-                    <Text variant="bodyMedium">{item.especialidad}</Text>
-                    <Text variant="bodyMedium">{item.ubicacion.description}</Text>
+                    <Text variant='bodyMedium'>{item.especialidad}</Text>
+                    <Text variant='bodyMedium'>{item.ubicacion.description}</Text>
                   </View>
                 </Card.Content>
               </Card>

@@ -23,20 +23,31 @@ const MapComponent = (props) => {
           style={styles.map}
           region={!isComponent ?
             {
-            latitude: currentPosition.coords.latitude,
-            longitude: currentPosition.coords.longitude,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
+                latitude: currentPosition.coords.latitude,
+                longitude: currentPosition.coords.longitude,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121,
             } :
             {
                 latitude: markerCoordinates.ubicacion.latitude,
                 longitude: markerCoordinates.ubicacion.longitude,
                 latitudeDelta: 0.015,
-                longitudeDelta: 0.0121, }}
+                longitudeDelta: 0.0121, 
+            }
+            }
         >
-            <Marker coordinate={{ latitude : currentPosition.coords.latitude , longitude : currentPosition.coords.longitude }} title='Mi Ubicacion'/>
-
-            { !isComponent && <Circle center={{ latitude : currentPosition.coords.latitude , longitude : currentPosition.coords.longitude }} radius={1000} fillColor={'rgba(0,0,100,0.3)'}/>}
+            <Marker 
+                coordinate={{ 
+                    latitude : currentPosition.coords.latitude , 
+                    longitude : currentPosition.coords.longitude 
+                }} 
+                icon={require('../src/locationPin.png')}
+                title='Mi Ubicacion'/>
+            { !isComponent &&
+                <Circle 
+                    center={{ latitude : currentPosition.coords.latitude , longitude : currentPosition.coords.longitude }} 
+                    radius={5000} 
+                    fillColor={'#2196F320'}/>}
             { !isComponent ? markerCoordinates.map((coordinateData,i) => (
                 <Marker 
                     key={i}

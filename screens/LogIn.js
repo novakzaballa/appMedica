@@ -1,6 +1,6 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { Button, FAB, Portal, TextInput } from 'react-native-paper';
+import { StyleSheet, Text, View } from 'react-native'
+import { Button, TextInput } from 'react-native-paper';
 import Colors from './src/utilitis/Colors';
 
 const LogIn = ({navigation}) => {
@@ -10,25 +10,12 @@ const LogIn = ({navigation}) => {
 
     return(
       <View>
-        <View style={homeStyles.view}>
-          <Button
-            style={homeStyles.buttonTwitterContainer}
-            mode="contained"
-            icon={require('./src/twitter.png')} 
-            onPress = {
-                () =>{
-                    navigation.navigate('Tabs')
-                }}>
-            Sign in with Twitter
-          </Button>
-          <Text style={homeStyles.circle}>Or</Text>
-        </View>
-        <View style={{marginLeft:'15%', marginRight: '15%'}}>
+        <View style={{marginLeft:'15%', marginRight: '15%', marginTop: '20%'}}>
           <TextInput
             label="Username"
             mode={'outlined'}
             outlineStyle={homeStyles.textInput}
-            activeOutlineColor={Colors.SECUNDARY_BLUE}
+            activeOutlineColor={Colors.SECONDARY_BLUE}
             value={userName}
             onChangeText={userName => setUserName(userName)}
           />
@@ -37,7 +24,7 @@ const LogIn = ({navigation}) => {
             mode={'outlined'}
             secureTextEntry={true}
             outlineStyle={homeStyles.textInput}
-            activeOutlineColor={Colors.SECUNDARY_BLUE}
+            activeOutlineColor={Colors.SECONDARY_BLUE}
             value={password}
             onChangeText={password => setPassword(password)}
           />
