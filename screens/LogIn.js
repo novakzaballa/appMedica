@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Button, TextInput } from 'react-native-paper';
+
 import Colors from './src/utilitis/Colors';
 
 const LogIn = ({navigation}) => {

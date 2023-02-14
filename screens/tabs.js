@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, StatusBar, ScrollView } from 'react-native';
-import { BottomNavigation, Button, Card, FAB, Text } from 'react-native-paper';
+import { BottomNavigation, Button, Card, FAB, Searchbar, Text } from 'react-native-paper';
 import { TabView } from 'react-native-tab-view';
 import { AlphabetList } from "react-native-section-alphabet-list";
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import _ from 'lodash';
 import { SelectList } from 'react-native-dropdown-select-list'
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from './src/utilitis/Colors';
+import Fuse from 'fuse.js'
 
 const data = [
   { "value": "Michael Torrez",
@@ -157,11 +158,23 @@ const data = [
       "city": "La paz",
       "description": "Av. Saavedra esq. Villalobos"
       } 
+  },
+  { 
+    "value": "Alberto Medrano",
+    "nombre": "Alberto Medrano",
+    "key": "1K6Iw00s18",
+    "especialidad": "Gastroenterologia",
+    "ubicacion": {
+      "latitude": -16.588905,
+      "longitude": -68.176811,
+      "city": "El Alto",
+      "description": "El Alto"
+      } 
   }
 ]
 
 const CheckIcon =(props) => {
-  return <Icon name='checkcircle' size={22} color={Colors.PRIMARY_BLUE} solid />;
+  return <Icon name='check-decagram' size={22} color={Colors.PRIMARY_BLUE} solid />;
 }
 
 const Tabs =({navigation}) => {
@@ -280,8 +293,8 @@ const Tabs =({navigation}) => {
         />
         <FAB
           style={styles.fab}
-          color={'white'}
-          icon='map'
+          color={Colors.DARK_GRAY}
+          icon={'map-outline'}
           onPress = {
             () =>{
                 navigation.navigate('Map', {
@@ -297,7 +310,6 @@ const Tabs =({navigation}) => {
 const FirstRoute = (props) =>{
   const { currentPosition, doctorList, navigation } = props;
   const doctorListGroupBy = _.groupBy(doctorList, 'especialidad');
-  console.log('Object.keys(doctorListGroupBy):', Object.keys(doctorListGroupBy));
 
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState();
@@ -369,43 +381,92 @@ const FirstRoute = (props) =>{
   );
 }
 
-const SecondRoute = ({navigation}) => (
-  <View style={[styles.scene]}>
-    <AlphabetList
-      data={data}
-      indexLetterStyle={{ 
-        color: 'blue', 
-        fontSize:15,
-      }}
-      renderCustomItem={(item) => (
-        <>
-          <Card
-            mode='elevated' 
-            style={styles.cardCoverView}
-            onPress = {
-              () =>{
-                navigation.navigate('Profile', {
-                  user: item
-                })
+const SecondRoute = ({navigation}) => {
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const options = {
+    keys: ['nombre', 'especialidad']
+  }
+  
+  const fuse = new Fuse(data, options)
+  
+  const result = fuse.search(searchQuery)
+
+  const DoctorList = () => {
+
+    return (result.map((item,i) => (
+      <Card
+        mode='elevated'
+        style={styles.cardCoverView}
+        key={i}
+        onPress = {
+          () =>{
+            navigation.navigate('Profile', {
+              user: item.item,
+              currentPosition: currentPosition
+            })
+          }
+        }
+      >
+        <Card.Content style={styles.cardContent}>
+          <Card.Cover source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.cardCover}/>
+          <View style={styles.textsView}>
+            <View  style={styles.cardContent}>
+              <Text variant='titleLarge'>{item.item.nombre}  </Text>
+              {item.item.verified && <CheckIcon/>}
+            </View>
+            <Text variant='bodyMedium'>{item.item.especialidad}</Text>
+            <Text variant='bodyMedium'>{item.item.ubicacion.description}</Text>
+          </View>
+        </Card.Content>
+      </Card>
+      )))
+  }
+  DoctorList()
+  return (
+    <View style={[styles.scene]}>
+      <Searchbar
+        placeholder='Buscar...'
+        onChangeText = {query => setSearchQuery(query)}      
+        />
+      <ScrollView style={styles.scene} >
+      <DoctorList/>
+      </ScrollView>
+      {/*<AlphabetList
+        data={data}
+        indexLetterStyle={{ 
+          color: 'blue', 
+          fontSize:15,
+        }}
+        renderCustomItem={(item) => (
+          <>
+            <Card
+              mode='elevated' 
+              style={styles.cardCoverView}
+              onPress = {
+                () =>{
+                  navigation.navigate('Profile', {
+                    user: item
+                  })
+                }
               }
-            }
-          >
-            <Card.Content style={styles.cardContent}>
-                <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={styles.cardCover}/>
-              <View style={styles.textsView}>
-                <Text variant="titleLarge">{item.nombre}  {item.verified && 
-                <CheckIcon/>}
-                </Text>
-                <Text variant="bodyMedium">{item.especialidad}</Text>
-                <Text variant="bodyMedium">{item.ubicacion.description}</Text>
-              </View>
-            </Card.Content>
-          </Card>
-        </>
-      )}
-    />
-  </View>
-);
+            >
+              <Card.Content style={styles.cardContent}>
+                  <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={styles.cardCover}/>
+                <View style={styles.textsView}>
+                  <Text variant="titleLarge">{item.nombre}  {item.verified && 
+                  <CheckIcon/>}
+                  </Text>
+                  <Text variant="bodyMedium">{item.especialidad}</Text>
+                  <Text variant="bodyMedium">{item.ubicacion.description}</Text>
+                </View>
+              </Card.Content>
+            </Card>
+          </>
+        )}
+        />*/}
+    </View>
+  )
+};
 
 
 const styles = StyleSheet.create({
@@ -432,7 +493,7 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   fab: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#FFF',
     position: 'absolute',
     margin: 16,
     right: 0,

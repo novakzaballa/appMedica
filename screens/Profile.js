@@ -24,7 +24,7 @@ const Profile = ({navigation, route}) => {
           </Modal>
         </Portal>
         {mapVisibility &&<View style={styles.mapContainer}>
-          <MapComponent currentPosition={currentPosition} markerCoordinates={user} isComponent = {true}/>
+          <MapComponent currentPosition={currentPosition} markerCoordinates={user} isComponent = {true} circleRatio = {1}/>
           <Button 
               icon={require('./src/marcador-de-mapa.png')} 
               mode='contained'
