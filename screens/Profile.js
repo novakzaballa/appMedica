@@ -38,7 +38,7 @@ const Profile = ({navigation, route}) => {
           </Button>
         </View>}
         {!mapVisibility && <View style={styles.container}>
-          <Avatar.Image size={200} source={require('./src/usuario.png')}/>
+          <Avatar.Image size={200} source={{uri: user.profilePhoto}}/>
           {user.verified && <Button icon={require('./src/quality.png')} mode='text' onPress={showModal}>
           Verificado
           </Button>}

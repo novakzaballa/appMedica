@@ -1,6 +1,7 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { Button, FAB, Portal, Text, TextInput } from 'react-native-paper';
+import Colors from './src/utilitis/Colors';
 //import PhoneVerification from ''./components/PhoneVerificatorCopy'';
 
 const SignUp = ({navigation}) => {
@@ -36,7 +37,7 @@ const SignUp = ({navigation}) => {
     return(
       <>
       <View>
-        {/*honeComponent && <PhoneVerification/>*/}
+        {/*phoneComponent && <PhoneVerification/>*/}
         {signUpComponent && <>
         <View style={homeStyles.centerView}>
           <Text variant='headlineLarge'>Create an Account</Text>
@@ -44,18 +45,17 @@ const SignUp = ({navigation}) => {
         </View>
         <View style={{flexDirection: 'row', justifyContent:'space-evenly', marginTop:'10%' }}>
         </View>
-        <View style={homeStyles.centerView}>
-          <Text style={homeStyles.circle}>Or</Text>
-        </View>
         <View style={{marginLeft:'15%', marginRight: '15%'}}>
           <TextInput
             label='Nombres'
             mode={'outlined'}
             outlineStyle={homeStyles.textInput}
+            activeOutlineColor={Colors.SECONDARY_BLUE}
             value={names}
             onChangeText={names => setNames(names)}
           />
           <TextInput
+            activeOutlineColor={Colors.SECONDARY_BLUE}
             label='Apellidos'
             mode={'outlined'}
             outlineStyle={homeStyles.textInput}
@@ -63,6 +63,7 @@ const SignUp = ({navigation}) => {
             onChangeText={lastName => setLastName(lastName)}
           />
           <TextInput
+            activeOutlineColor={Colors.SECONDARY_BLUE}
             label='Telefono'
             mode={'outlined'}
             secureTextEntry={true}
@@ -73,7 +74,11 @@ const SignUp = ({navigation}) => {
           <Button
             style={homeStyles.buttonSignInContainer}
             mode='contained'
-            onPress = {() =>handleSignUpButton()}>
+            //onPress = {() =>handleSignUpButton()}
+            onPress = {
+              () =>{
+                  navigation.navigate('Home')
+              }}>
           Sign up
           </Button>
         </View></>}
@@ -124,6 +129,7 @@ const homeStyles = StyleSheet.create({
     },
     textInput:{
       borderRadius: 100,
+      borderColor: '#2196F3'
     },
     circle: {
       borderRadius: 50,

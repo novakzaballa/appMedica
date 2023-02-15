@@ -32,8 +32,7 @@ const MapComponent = (props) => {
 // -16.495541, -68.129923 casco urbano central
 
     return(
-        <>
-            {<MapView
+            <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             style={styles.map}
             region={!isComponent ?
@@ -127,8 +126,7 @@ const MapComponent = (props) => {
                             </Card>
                     </Modal>
                 </Portal>
-            </MapView>}
-        </>
+            </MapView>
     )
 }
 export default MapComponent;
