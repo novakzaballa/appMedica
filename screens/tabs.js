@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { Card, FAB, Searchbar, Text } from 'react-native-paper';
+import { FAB, Searchbar } from 'react-native-paper';
 import { TabView } from 'react-native-tab-view';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import _ from 'lodash';
 import { SelectList } from 'react-native-dropdown-select-list';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from './src/utilitis/Colors';
 import Fuse from 'fuse.js';
 import DoctorCard from './components/DoctorCard';
@@ -186,10 +185,6 @@ const data = [
       } 
   }
 ]
-
-const CheckIcon =(props) => {
-  return <Icon name='check-decagram' size={22} color={Colors.PRIMARY_BLUE} solid />;
-}
 
 const Tabs =({navigation}) => {
 

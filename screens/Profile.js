@@ -76,8 +76,10 @@ const Profile = ({navigation, route}) => {
           color={'white'}
           label="Make an Appointment"
           onPress = {
-            () =>{
-                navigation.navigate('Appointment')
+            () => {
+                navigation.navigate('Appointment', {
+                  doctor: user
+              })
             }
           } 
         />
