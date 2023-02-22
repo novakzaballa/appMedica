@@ -9,6 +9,7 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from './src/utilitis/Colors';
 import Fuse from 'fuse.js';
+import DoctorCard from './components/DoctorCard';
 
 const data = [
   { "value": "Michael Torrez",
@@ -335,31 +336,20 @@ const FirstRoute = (props) =>{
         return (
           <>
             {doctorListGroupBy[selected].map((item, index) => (
-              <Card
-                mode='elevated' 
-                style={styles.cardCoverView}
-                key={index}
-                onPress = {
-                  () =>{
+              <DoctorCard
+                profilePhoto={item.profilePhoto}
+                index={i}
+                name={item.nombre}
+                specialty={item.especialidad}
+                verified={item.verified}
+                description={item.ubicacion.description}
+                navProfile={() => {
                     navigation.navigate('Profile', {
-                      user: item,
-                      currentPosition: currentPosition
-                    })
-                  }
-                }
-              >
-                <Card.Content style={styles.cardContent}>
-                  <Card.Cover source={{uri: item.profilePhoto}} style={styles.cardCover}/>
-                  <View style={styles.textsView}>
-                    <View  style={styles.cardContent}>
-                      <Text variant='titleLarge'>{item.nombre}  </Text>
-                      {item.verified && <CheckIcon/>}
-                    </View>
-                    <Text variant='bodyMedium'>{item.especialidad}</Text>
-                    <Text variant='bodyMedium'>{item.ubicacion.description}</Text>
-                  </View>
-                </Card.Content>
-              </Card>
+                    user: item,
+                    currentPosition: {}
+                  })
+                }}
+              />
             ))}
           </>
         )}
@@ -398,7 +388,7 @@ const FirstRoute = (props) =>{
 const SecondRoute = ({navigation}) => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const options = {
-    keys: ['nombre', 'especialidad']
+    keys: ['nombre']
   }
   
   const fuse = new Fuse(data, options)
@@ -408,32 +398,21 @@ const SecondRoute = ({navigation}) => {
   const DoctorList = () => {
 
     return (result.map((item,i) => (
-      <Card
-        mode='elevated'
-        style={styles.cardCoverView}
-        key={i}
-        onPress = {
-          () =>{
+      <DoctorCard
+        profilePhoto={item.item.profilePhoto}
+        index={i}
+        name={item.item.nombre}
+        specialty={item.item.especialidad}
+        verified={item.item.verified}
+        description={item.item.ubicacion.description}
+        navProfile={() => {
             navigation.navigate('Profile', {
-              user: item.item,
-              currentPosition: {}
-            })
-          }
-        }
-      >
-        <Card.Content style={styles.cardContent}>
-          <Card.Cover source={{uri: item.item.profilePhoto}} style={styles.cardCover}/>
-          <View style={styles.textsView}>
-            <View  style={styles.cardContent}>
-              <Text variant='titleLarge'>{item.item.nombre}  </Text>
-              {item.item.verified && <CheckIcon/>}
-            </View>
-            <Text variant='bodyMedium'>{item.item.especialidad}</Text>
-            <Text variant='bodyMedium'>{item.item.ubicacion.description}</Text>
-          </View>
-        </Card.Content>
-      </Card>
-      )))
+            user: item.item,
+            currentPosition: {}
+          })
+        }}
+      />
+    )))
   }
   return (
     <View style={[styles.scene]}>

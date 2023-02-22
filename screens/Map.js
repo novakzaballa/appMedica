@@ -10,7 +10,7 @@ const Map = ({navigation, route}) => {
     return(
         <>
         <View style={styles.container}>
-            <MapComponent 
+            <MapComponent
                 currentPosition={coordinates.currentPosition} 
                 markerCoordinates={coordinates.doctorList}
                 specialty = {coordinates.selected}

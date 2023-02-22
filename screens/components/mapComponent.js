@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import MapView, { Circle, Marker, PROVIDER_GOOGLE } from 'react-native-maps'; 
 import { Button, Card, Modal, Portal, Text } from 'react-native-paper';
 import Colors from '../src/utilitis/Colors';
+import DoctorCard from './DoctorCard';
 
 const MapComponent = (props) => {
 
@@ -23,6 +24,18 @@ const MapComponent = (props) => {
                         circleRatio?.value === 10 ? 0.2 : 
                             circleRatio?.value === 15 ? 0.3 :
                                 circleRatio?.value === 20 ? 0.4 : 0.02)
+
+    const navProfile = () => {
+        hideModal();
+        navigation.navigate('Profile', {
+            user: coordinateData,
+            currentPosition: currentPosition
+        })
+    }
+    const navAppointment = () => {
+        hideModal();
+        navigation.navigate('Appointment');
+    }
 
 // 0.02 = 1km
 // 0.1 = 5km
@@ -88,42 +101,15 @@ const MapComponent = (props) => {
                         onDismiss={hideModal} 
                         contentContainerStyle={containerStyle}   
                         style={{marginTop: '100%'}}>
-                            <Card>
-                                <Card.Content style={styles.cardContent}>
-                                <Card.Cover source={{ uri: 'https://picsum.photos/200' }} style={{width: 100, height:100}}/>
-                                <View style={{margin:10}}>
-                                    <Text variant="titleLarge">{coordinateData.nombre}</Text>
-                                    <Text variant="bodyMedium">{coordinateData.especialidad}</Text>
-                                </View>
-                                </Card.Content>
-                                <Card.Actions>
-                                    <Button
-                                        style = {styles.button}
-                                        onPress = {
-                                            () =>{
-                                                hideModal();
-                                                navigation.navigate('Profile', {
-                                                user: coordinateData,
-                                                currentPosition: currentPosition
-                                                })
-                                            }
-                                        }
-                                    >
-                                    Ir al Perfil
-                                    </Button>
-                                    <Button
-                                        style = {styles.button}
-                                        onPress = {
-                                            () =>{
-                                                hideModal();
-                                                navigation.navigate('Appointment');
-                                            }
-                                        }
-                                    >
-                                    Crear cita
-                                    </Button>
-                                </Card.Actions>
-                            </Card>
+                            {<DoctorCard
+                                profilePhoto={coordinateData.profilePhoto}
+                                name={coordinateData.nombre}
+                                specialty={coordinateData.especialidad}
+                                verified={coordinateData.verified}
+                                showButtons
+                                navProfile={navProfile}
+                                navAppointment={navAppointment}
+                                />}
                     </Modal>
                 </Portal>
             </MapView>
