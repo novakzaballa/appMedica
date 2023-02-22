@@ -6,7 +6,7 @@ import Colors from '../src/utilitis/Colors';
 
 const MapComponent = (props) => {
 
-    const { circleRatio, currentPosition, markerCoordinates, isComponent, navigation } = props;
+    const { circleRatio, currentPosition, markerCoordinates, isComponent, navigation, specialty } = props;
     const [visible, setVisible] = React.useState(false);
     const [coordinateData, setCoordinateData] = React.useState({});
     const showModal = (props) => {
@@ -66,7 +66,7 @@ const MapComponent = (props) => {
                         radius={ratio || 1000} 
                         fillColor={'#2196F320'}/>}
                 { !isComponent ? markerCoordinates.map((coordinateData,i) => (
-                coordinateData.dist <= (dist || 1) &&
+                coordinateData.dist <= (dist || 1) && coordinateData.especialidad === specialty &&
                     <Marker 
                         key={i}
                         coordinate={{ 

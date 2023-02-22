@@ -12,12 +12,13 @@ const Map = ({navigation, route}) => {
         <View style={styles.container}>
             <MapComponent 
                 currentPosition={coordinates.currentPosition} 
-                markerCoordinates={coordinates.proximityOrder}
+                markerCoordinates={coordinates.doctorList}
+                specialty = {coordinates.selected}
                 navigation={navigation}
                 circleRatio={ratio}/>
         </View>
         <Slider 
-            style= {styles.slider}
+            style={styles.fab}
             maximumValue={20} 
             minimumValue={0} 
             step={5}
@@ -40,6 +41,10 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
  },
+ fab: {
+    margin: 16,
+    top: '90%',
+  },
 sliderView:{
     flexDirection: 'row'
 }

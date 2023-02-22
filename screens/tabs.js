@@ -304,18 +304,6 @@ const Tabs =({navigation}) => {
         onIndexChange={setIndex}
         initialLayout={{ width: Dimensions.get('window').width }}
         />
-        <FAB
-          style={styles.fab}
-          color={Colors.DARK_GRAY}
-          icon={'map-outline'}
-          onPress = {
-            () =>{
-                navigation.navigate('Map', {
-                  coordinates: {currentPosition, proximityOrder}
-                }
-              )
-            }
-          }/>
     </>
   );
 }
@@ -361,7 +349,7 @@ const FirstRoute = (props) =>{
                 }
               >
                 <Card.Content style={styles.cardContent}>
-                  <Card.Cover source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.cardCover}/>
+                  <Card.Cover source={{uri: item.profilePhoto}} style={styles.cardCover}/>
                   <View style={styles.textsView}>
                     <View  style={styles.cardContent}>
                       <Text variant='titleLarge'>{item.nombre}  </Text>
@@ -390,6 +378,19 @@ const FirstRoute = (props) =>{
       <ScrollView style={styles.scene} >
         {selected && <DoctorList/>}
       </ScrollView>
+      { selected && <FAB
+          style={styles.fab}
+          color={Colors.DARK_GRAY}
+          icon={'map-outline'}
+          onPress = {
+            () =>{
+                navigation.navigate('Map', {
+                  coordinates: {currentPosition, doctorList, selected}
+                }
+              )
+            }
+          }/>
+      }
     </View>
   );
 }
@@ -415,7 +416,7 @@ const SecondRoute = ({navigation}) => {
           () =>{
             navigation.navigate('Profile', {
               user: item.item,
-              currentPosition: currentPosition
+              currentPosition: {}
             })
           }
         }
