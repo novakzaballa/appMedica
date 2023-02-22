@@ -10,7 +10,13 @@ const Profile = ({navigation, route}) => {
     const { currentPosition, user } = route.params;
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    const DATA = [{id: '1', hour:'15:30'}, {id: '2', hour:'17:00'} , {id: '3', hour:'17:30'}, {id: '4', hour:'18:00'}, {id: '5', hour:'18:30'}];
+    const DATA = [
+      { key: '1', value: 'Miercoles, 1 de marzo' },
+      { key: '2', value: 'Jueves, 2 de marzo' },
+      { key: '3', value: 'Viernes, 3 de marzo' },
+      { key: '4', value: 'Lunes, 6 de marzo' },
+      { key: '5', value: 'Miercoles, 8 de marzo' },
+    ];
 
     return(
         <View style={styles.scene} >
@@ -58,14 +64,26 @@ const Profile = ({navigation, route}) => {
           </Button>}
           <Text variant='bodyMedium'>Dr. Paniagua has extensive experience in pediatrics. He coursed his major in UMSA, La Paz Bolivia, while completed his specialty in UNAM, Mexico D.F.</Text>
           <SafeAreaView style={styles.container2}>
-          <Text variant='titleSmall'>Today's availability</Text>
+          <Text variant='titleSmall'>Fechas proximas disponibles:</Text>
             <FlatList
               data={DATA}
               horizontal={true}
               textColor='black'
               renderItem={({item}) =>   
-              <Button style={styles.button} mode="outlined" textColor={'black'} onPress={() => console.log('Pressed')}>
-                {item.hour}
+              <Button 
+                style={styles.button} 
+                mode='outlined'
+                textColor='black' 
+                onPress = {
+                  () => {
+                      navigation.navigate('Appointment', {
+                        doctor: user,
+                        date: item
+                    })
+                  }
+                } 
+              >
+                {item.value}
               </Button>}
               keyExtractor={item => item.id}
             />
@@ -105,11 +123,10 @@ const styles = StyleSheet.create({
       marginTop:'15%'
     },
     container2: {
-      marginTop: 20,
-      borderWidth: 1
+      margin: 10
     },
     button: {
-      width: 100,
+      width: 200,
       height:40,
       marginTop:10,
       marginRight:10
@@ -128,5 +145,4 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-end',
       alignItems: 'center',
     },
-
   });
