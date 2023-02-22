@@ -9,12 +9,26 @@ import SignUp from '../screens/SignUp'
 import Map from './../screens/Map';
 import Colors from '../screens/src/utilitis/Colors'
 import LogIn from './../screens/LogIn';
+import Home2 from '../screens/MainHome'
 const Stack = createNativeStackNavigator()
 
 const Stacks = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+                <Stack.Screen
+                  name='SignUp'
+                  component={ SignUp }
+                  options={{
+                    headerStyle: {
+                      backgroundColor: Colors.PRIMARY_BLUE,
+                    },
+                    headerTintColor: Colors.WHITE,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                  }}
+                />
                 <Stack.Screen
                   name='LogIn'
                   component={ LogIn }
@@ -70,19 +84,6 @@ const Stacks = () => {
                   }}
                 />
                 <Stack.Screen
-                  name='SignUp'
-                  component={ SignUp }
-                  options={{
-                    headerStyle: {
-                      backgroundColor: Colors.PRIMARY_BLUE,
-                    },
-                    headerTintColor: Colors.WHITE,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                    },
-                  }}
-                />
-                <Stack.Screen
                   name='Map'
                   component={ Map }
                   options={{
@@ -101,13 +102,27 @@ const Stacks = () => {
                   options={{
                     headerStyle: {
                       backgroundColor: Colors.PRIMARY_BLUE,
-                      title: 'New Appointment'
                     },
                     headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
                     },
                   }}
+                />
+                <Stack.Screen
+                  name='Home2'
+                  component={ Home2 }
+                  options={{
+                    headerStyle: {
+                      backgroundColor: Colors.PRIMARY_BLUE,
+                    },
+                    headerTintColor: Colors.WHITE,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                    title: 'My home'
+                  }
+                }
                 />
             </Stack.Navigator>
         </NavigationContainer>

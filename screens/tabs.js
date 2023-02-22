@@ -1,20 +1,22 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, StatusBar, ScrollView } from 'react-native';
-import { BottomNavigation, Button, Card, FAB, Text } from 'react-native-paper';
+import { View, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { Card, FAB, Searchbar, Text } from 'react-native-paper';
 import { TabView } from 'react-native-tab-view';
-import { AlphabetList } from "react-native-section-alphabet-list";
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import _ from 'lodash';
-import { SelectList } from 'react-native-dropdown-select-list'
-import Icon from 'react-native-vector-icons/AntDesign';
+import { SelectList } from 'react-native-dropdown-select-list';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from './src/utilitis/Colors';
+import Fuse from 'fuse.js';
+import DoctorCard from './components/DoctorCard';
 
 const data = [
   { "value": "Michael Torrez",
     "nombre": "Michael Torrez", 
     "key": "lCUTs2",
     "especialidad": "Traumatologia",
+    "profilePhoto": 'https://cdn.euroinnova.edu.es/img/subidasEditor/doctor-5871743_640-1610073541.webp',
     "ubicacion": {
       "latitude": -17.397819,
       "longitude": -66.151931,
@@ -27,6 +29,7 @@ const data = [
     "key": "TXdL0c2",
     "nombre": "Emmanuel  Gazmey",
     "especialidad": "Pediatria",
+    "profilePhoto": 'https://familydoctor.org/wp-content/uploads/2018/02/41808433_l.jpg',
     "ubicacion": {
       "latitude": -16.512764, 
       "longitude": -68.128196,
@@ -38,6 +41,7 @@ const data = [
   { "value": "Jose Osorio",
     "nombre": "Jose Osorio", 
     "key": "TXdLeaav0c2",
+    "profilePhoto": 'https://img.freepik.com/free-photo/attractive-young-male-nutriologist-lab-coat-smiling-against-white-background_662251-2960.jpg',
     "especialidad": "Oncologia",
     "ubicacion": {
       "latitude": -16.508423,
@@ -50,6 +54,7 @@ const data = [
   { "value": "Emma Lunas",
     "nombre": "Emma Lunas", 
     "key": "TXzddL0c",
+    "profilePhoto": 'https://virtualdr.ca/wp-content/uploads/2022/02/online-doctor-Ontario.webp',
     "especialidad": "Traumatologia",
     "ubicacion": {
       "latitude": -16.496981,
@@ -62,6 +67,7 @@ const data = [
     "value": "Ester Soliz",
     "nombre": "Ester Soliz",
     "key": "TXsdLsg0c",
+    "profilePhoto": 'https://www.practostatic.com/consumer-home/desktop/images/1597423628/dweb_surgeries.png',
     "especialidad": "Gastroenterologia",
     "ubicacion": {
       "latitude": -16.487284,
@@ -74,6 +80,7 @@ const data = [
     "value": "Jesus Cortez",
     "nombre": "Jesus Cortez",
     "key": "TXdLc0c",
+    "profilePhoto": 'https://media.istockphoto.com/id/138205019/photo/happy-healthcare-practitioner.jpg?s=612x612&w=0&k=20&c=b8kUyVtmZeW8MeLHcDsJfqqF0XiFBjq6tgBQZC7G0f0=',
     "especialidad": "Nefrologia",
     "ubicacion": {
       "latitude": -16.525448,
@@ -87,6 +94,7 @@ const data = [
     "value": "Juan Perez",
     "nombre": "Juan Perez",
     "key": "psg2PM",
+    "profilePhoto": 'https://cdn-fkafl.nitrocdn.com/SmcWMfFNujZDzRWxSfczwRCYPPFFCBMB/assets/images/optimized/rev-c48b233/wp-content/uploads/2020/01/Dr.Abdul-Hafeez-1-1.jpg',
     "especialidad": "Pediatria",
     "ubicacion": {
       "latitude": -16.496524,
@@ -112,6 +120,7 @@ const data = [
     "value": "Juan Lordoño",
     "nombre": "Juan Lordoño",
     "key": "zqsiE2w3",
+    "profilePhoto": 'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*',
     "especialidad": "Cardiologia",
     "ubicacion": {
       "latitude": -16.497555,
@@ -125,6 +134,8 @@ const data = [
     "value": "Benito Martinez",
     "nombre": "Benito Martinez",
     "key": "z1qsiEw4",
+    "profilePhoto": 'https://flxt.tmsimg.com/assets/p14159582_n1138325_cc_v9_aa.jpg',
+
     "especialidad": "Medico General",
     "ubicacion": {
       "latitude": -16.502882,
@@ -138,6 +149,7 @@ const data = [
     "value": "Paola Vera",
     "nombre": "Paola Vera",
     "key": "zqsiEw5",
+    "profilePhoto": 'https://media.istockphoto.com/id/1189304032/photo/doctor-holding-digital-tablet-at-meeting-room.jpg?s=612x612&w=0&k=20&c=RtQn8w_vhzGYbflSa1B5ea9Ji70O8wHpSgGBSh0anUg=',
     "especialidad": "Gastroenterologia",
     "ubicacion": {
       "latitude": -16.509244,
@@ -150,6 +162,7 @@ const data = [
     "value": "Gilmar Salzar",
     "nombre": "Gilmar Salzar",
     "key": "1K6Iaj2318",
+    "profilePhoto": 'https://www.woodlandshospital.in/images/doctor-img/ravi-kant-saraogi.jpg',
     "especialidad": "Ginecologo",
     "ubicacion": {
       "latitude": -16.502931,
@@ -157,11 +170,25 @@ const data = [
       "city": "La paz",
       "description": "Av. Saavedra esq. Villalobos"
       } 
+  },
+  { 
+    "value": "Alberto Medrano",
+    "nombre": "Alberto Medrano",
+    "key": "1K6Iw00s18",
+    "profilePhoto": 'https://www.kauveryhospital.com/doctorimage/recent/salem/Dr_P_V_Dhanapal.jpg',
+
+    "especialidad": "Gastroenterologia",
+    "ubicacion": {
+      "latitude": -16.588905,
+      "longitude": -68.176811,
+      "city": "El Alto",
+      "description": "El Alto"
+      } 
   }
 ]
 
 const CheckIcon =(props) => {
-  return <Icon name="checkcircle" size={22} color={Colors.PRIMARY_BLUE} solid />;
+  return <Icon name='check-decagram' size={22} color={Colors.PRIMARY_BLUE} solid />;
 }
 
 const Tabs =({navigation}) => {
@@ -278,18 +305,6 @@ const Tabs =({navigation}) => {
         onIndexChange={setIndex}
         initialLayout={{ width: Dimensions.get('window').width }}
         />
-        <FAB
-          style={styles.fab}
-          color={'white'}
-          label="Open Map"
-          onPress = {
-            () =>{
-                navigation.navigate('Map', {
-                  coordinates: {currentPosition, proximityOrder}
-                }
-              )
-            }
-          }/>
     </>
   );
 }
@@ -297,7 +312,6 @@ const Tabs =({navigation}) => {
 const FirstRoute = (props) =>{
   const { currentPosition, doctorList, navigation } = props;
   const doctorListGroupBy = _.groupBy(doctorList, 'especialidad');
-  console.log('Object.keys(doctorListGroupBy):', Object.keys(doctorListGroupBy));
 
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState();
@@ -322,31 +336,20 @@ const FirstRoute = (props) =>{
         return (
           <>
             {doctorListGroupBy[selected].map((item, index) => (
-              <Card
-                mode='elevated' 
-                style={styles.cardCoverView}
-                key={index}
-                onPress = {
-                  () =>{
+              <DoctorCard
+                profilePhoto={item.profilePhoto}
+                index={i}
+                name={item.nombre}
+                specialty={item.especialidad}
+                verified={item.verified}
+                description={item.ubicacion.description}
+                navProfile={() => {
                     navigation.navigate('Profile', {
-                      user: item,
-                      currentPosition: currentPosition
-                    })
-                  }
-                }
-              >
-                <Card.Content style={styles.cardContent}>
-                  <Card.Cover source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.cardCover}/>
-                  <View style={styles.textsView}>
-                    <View  style={styles.cardContent}>
-                      <Text variant="titleLarge">{item.nombre}  </Text>
-                      {item.verified && <CheckIcon/>}
-                    </View>
-                    <Text variant="bodyMedium">{item.especialidad}</Text>
-                    <Text variant="bodyMedium">{item.ubicacion.description}</Text>
-                  </View>
-                </Card.Content>
-              </Card>
+                    user: item,
+                    currentPosition: {}
+                  })
+                }}
+              />
             ))}
           </>
         )}
@@ -365,47 +368,64 @@ const FirstRoute = (props) =>{
       <ScrollView style={styles.scene} >
         {selected && <DoctorList/>}
       </ScrollView>
+      { selected && <FAB
+          style={styles.fab}
+          color={Colors.DARK_GRAY}
+          icon={'map-outline'}
+          onPress = {
+            () =>{
+                navigation.navigate('Map', {
+                  coordinates: {currentPosition, doctorList, selected}
+                }
+              )
+            }
+          }/>
+      }
     </View>
   );
 }
 
-const SecondRoute = ({navigation}) => (
-  <View style={[styles.scene]}>
-    <AlphabetList
-      data={data}
-      indexLetterStyle={{ 
-        color: 'blue', 
-        fontSize:15,
-      }}
-      renderCustomItem={(item) => (
-        <>
-          <Card
-            mode='elevated' 
-            style={styles.cardCoverView}
-            onPress = {
-              () =>{
-                navigation.navigate('Profile', {
-                  user: item
-                })
-              }
-            }
-          >
-            <Card.Content style={styles.cardContent}>
-                <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={styles.cardCover}/>
-              <View style={styles.textsView}>
-                <Text variant="titleLarge">{item.nombre}  {item.verified && 
-                <CheckIcon/>}
-                </Text>
-                <Text variant="bodyMedium">{item.especialidad}</Text>
-                <Text variant="bodyMedium">{item.ubicacion.description}</Text>
-              </View>
-            </Card.Content>
-          </Card>
-        </>
-      )}
-    />
-  </View>
-);
+const SecondRoute = ({navigation}) => {
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const options = {
+    keys: ['nombre']
+  }
+  
+  const fuse = new Fuse(data, options)
+  
+  const result = fuse.search(searchQuery)
+
+  const DoctorList = () => {
+
+    return (result.map((item,i) => (
+      <DoctorCard
+        profilePhoto={item.item.profilePhoto}
+        index={i}
+        name={item.item.nombre}
+        specialty={item.item.especialidad}
+        verified={item.item.verified}
+        description={item.item.ubicacion.description}
+        navProfile={() => {
+            navigation.navigate('Profile', {
+            user: item.item,
+            currentPosition: {}
+          })
+        }}
+      />
+    )))
+  }
+  return (
+    <View style={[styles.scene]}>
+      <Searchbar
+        placeholder='Buscar...'
+        onChangeText = {query => setSearchQuery(query)}      
+        />
+      <ScrollView style={styles.scene} >
+      <DoctorList/>
+      </ScrollView>
+    </View>
+  )
+};
 
 
 const styles = StyleSheet.create({
@@ -432,7 +452,7 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   fab: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#FFF',
     position: 'absolute',
     margin: 16,
     right: 0,

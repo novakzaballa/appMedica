@@ -24,7 +24,7 @@ const Profile = ({navigation, route}) => {
           </Modal>
         </Portal>
         {mapVisibility &&<View style={styles.mapContainer}>
-          <MapComponent currentPosition={currentPosition} markerCoordinates={user} isComponent = {true}/>
+          <MapComponent currentPosition={currentPosition} markerCoordinates={user} isComponent = {true} circleRatio = {1}/>
           <Button 
               icon={require('./src/marcador-de-mapa.png')} 
               mode='contained'
@@ -38,7 +38,7 @@ const Profile = ({navigation, route}) => {
           </Button>
         </View>}
         {!mapVisibility && <View style={styles.container}>
-          <Avatar.Image size={200} source={require('./src/usuario.png')}/>
+          <Avatar.Image size={200} source={{uri: user.profilePhoto}}/>
           {user.verified && <Button icon={require('./src/quality.png')} mode='text' onPress={showModal}>
           Verificado
           </Button>}

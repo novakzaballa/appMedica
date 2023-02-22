@@ -1,13 +1,14 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { Button, FAB, Portal, Text, TextInput } from 'react-native-paper';
-//import PhoneVerification from "./components/PhoneVerificatorCopy";
+import Colors from './src/utilitis/Colors';
+//import PhoneVerification from ''./components/PhoneVerificatorCopy'';
 
 const SignUp = ({navigation}) => {
 
-    const [userName, setUserName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [names, setNames] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [phone, setPhone] = React.useState('');
     const [phoneComponent, setPhoneComponent] = React.useState(false);
     const [codeValidationComponent, setCodeValidationComponent] = React.useState(false);
     const [signUpComponent, setSignUpComponent] = React.useState(true);
@@ -36,95 +37,61 @@ const SignUp = ({navigation}) => {
     return(
       <>
       <View>
-        {/*honeComponent && <PhoneVerification/>*/}
+        {/*phoneComponent && <PhoneVerification/>*/}
         {signUpComponent && <>
         <View style={homeStyles.centerView}>
           <Text variant='headlineLarge'>Create an Account</Text>
-          <Text variant='bodySmall'>Sign up with your social media account or email address</Text>
+          <Text variant='bodySmall'>Sign up</Text>
         </View>
         <View style={{flexDirection: 'row', justifyContent:'space-evenly', marginTop:'10%' }}>
-          <Button
-            style={homeStyles.buttonFacebookContainer}
-            mode="contained"
-            icon={require('./src/facebook.png')} 
-            onPress = {
-                () =>{
-                    navigation.navigate('Tabs')
-                }}>
-            Facebook
-          </Button>
-          <Button
-            style={homeStyles.buttonTwitterContainer}
-            mode="contained"
-            icon={require('./src/twitter.png')} 
-            onPress = {
-                () =>{
-                    navigation.navigate('Tabs')
-                }}>
-            Twitter
-          </Button>
-          <Button
-            style={homeStyles.buttonGoogleContainer}
-            mode="contained"
-            icon={require('./src/google.png')} 
-            onPress = {
-                () =>{
-                    navigation.navigate('Tabs')
-                }}>
-          Google
-          </Button>
-        </View>
-        <View style={homeStyles.centerView}>
-          <Text style={homeStyles.circle}>Or</Text>
         </View>
         <View style={{marginLeft:'15%', marginRight: '15%'}}>
           <TextInput
-            label="Username"
+            label='Nombres'
             mode={'outlined'}
             outlineStyle={homeStyles.textInput}
-            value={userName}
-            onChangeText={userName => setUserName(userName)}
+            activeOutlineColor={Colors.SECONDARY_BLUE}
+            value={names}
+            onChangeText={names => setNames(names)}
           />
           <TextInput
-            label="Email Address"
+            activeOutlineColor={Colors.SECONDARY_BLUE}
+            label='Apellidos'
             mode={'outlined'}
             outlineStyle={homeStyles.textInput}
-            value={email}
-            onChangeText={email => setEmail(email)}
+            value={lastName}
+            onChangeText={lastName => setLastName(lastName)}
           />
           <TextInput
-            label="Password"
+            activeOutlineColor={Colors.SECONDARY_BLUE}
+            label='Telefono'
             mode={'outlined'}
             secureTextEntry={true}
             outlineStyle={homeStyles.textInput}
-            value={password}
-            onChangeText={password => setPassword(password)}
-          />
-          <TextInput
-            label="Confirm Password"
-            mode={'outlined'}
-            secureTextEntry={true}
-            outlineStyle={homeStyles.textInput}
-            value={password}
-            onChangeText={password => setPassword(password)}
+            value={phone}
+            onChangeText={phone => setPhone(phone)}
           />
           <Button
             style={homeStyles.buttonSignInContainer}
-            mode="contained"
-            onPress = {() =>handleSignUpButton()}>
+            mode='contained'
+            //onPress = {() =>handleSignUpButton()}
+            onPress = {
+              () =>{
+                  navigation.navigate('Home')
+              }}>
           Sign up
           </Button>
         </View></>}
       </View>
       {phoneComponent && <><Button
         style={homeStyles.textButtonLeft}
-        mode="text"
+        mode='text'
         onPress = {() =>handlePreviousButton()}>
       {'< Previous'}
       </Button>
       <Button
         style={homeStyles.textButton}
-        mode="text"
+        mode='text'
         onPress = {() =>handleNextButton()}>
       {codeValidationComponent ? 'finish >' : 'Next >'}
     </Button></>}    
@@ -162,6 +129,7 @@ const homeStyles = StyleSheet.create({
     },
     textInput:{
       borderRadius: 100,
+      borderColor: '#2196F3'
     },
     circle: {
       borderRadius: 50,
