@@ -1,8 +1,7 @@
-import React from 'react'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
-import { Button, FAB, Portal, Text, TextInput } from 'react-native-paper';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, Text, TextInput } from 'react-native-paper';
 import Colors from './src/utilitis/Colors';
-//import PhoneVerification from ''./components/PhoneVerificatorCopy'';
 
 const SignUp = ({navigation}) => {
 
@@ -43,8 +42,6 @@ const SignUp = ({navigation}) => {
           <Text variant='headlineLarge'>Create an Account</Text>
           <Text variant='bodySmall'>Sign up</Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent:'space-evenly', marginTop:'10%' }}>
-        </View>
         <View style={{marginLeft:'15%', marginRight: '15%'}}>
           <TextInput
             label='Nombres'
@@ -81,6 +78,15 @@ const SignUp = ({navigation}) => {
               }}>
           Sign up
           </Button>
+          <Button
+            style={homeStyles.buttonSignInContainer}
+            mode='contained'
+            onPress = {
+              () =>{
+                  navigation.navigate('AnimatedVerification')
+              }}>
+          Sign in
+          </Button>
         </View></>}
       </View>
       {phoneComponent && <><Button
@@ -103,18 +109,6 @@ export default SignUp;
 const homeStyles = StyleSheet.create({
     buttonFacebookContainer: {
       backgroundColor: '#3b5998',
-      borderRadius: 100,
-      height: 50,
-      display: 'flex', justifyContent: 'center'
-    },
-    buttonTwitterContainer: {
-      backgroundColor: '#00acee',
-      borderRadius: 100,
-      height: 50,
-      display: 'flex', justifyContent: 'center'
-    },
-    buttonGoogleContainer: {
-      backgroundColor: '#BE3C2E',
       borderRadius: 100,
       height: 50,
       display: 'flex', justifyContent: 'center'

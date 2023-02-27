@@ -9,7 +9,8 @@ import SignUp from '../screens/SignUp'
 import Map from './../screens/Map';
 import Colors from '../screens/src/utilitis/Colors'
 import LogIn from './../screens/LogIn';
-import Home2 from '../screens/MainHome'
+import MainHome from '../screens/MainHome'
+import AnimatedVerification from '../screens/signUp/Verification'
 const Stack = createNativeStackNavigator()
 
 const Stacks = () => {
@@ -35,7 +36,6 @@ const Stacks = () => {
                   options={{
                     headerStyle: {
                       backgroundColor: Colors.PRIMARY_BLUE,
-                      title: 'Log In'
                     },
                     headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
@@ -53,8 +53,8 @@ const Stacks = () => {
                     headerTintColor: Colors.WHITE,
                     headerTitleStyle: {
                       fontWeight: 'bold',
-                    }
-                    //headerShown: false 
+                    },
+                    headerLeft: () => <></>,
                   }}
                 />
                 <Stack.Screen
@@ -110,8 +110,8 @@ const Stacks = () => {
                   }}
                 />
                 <Stack.Screen
-                  name='Home2'
-                  component={ Home2 }
+                  name='MainHome'
+                  component={MainHome}
                   options={{
                     headerStyle: {
                       backgroundColor: Colors.PRIMARY_BLUE,
@@ -120,7 +120,19 @@ const Stacks = () => {
                     headerTitleStyle: {
                       fontWeight: 'bold',
                     },
-                    title: 'My home'
+                  }}
+                />
+                <Stack.Screen
+                  name='AnimatedVerification'
+                  component={ AnimatedVerification }
+                  options={{
+                    headerStyle: {
+                      backgroundColor: Colors.PRIMARY_BLUE,
+                    },
+                    headerTintColor: Colors.WHITE,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
                   }
                 }
                 />

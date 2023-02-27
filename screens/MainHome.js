@@ -265,6 +265,7 @@ const MainHome = ({navigation, route}) => {
         setSearchQuery(query);
     }
     const options = {
+      threshold: 0.3,
       keys: ['especialidad']
     }
 
@@ -305,7 +306,7 @@ const MainHome = ({navigation, route}) => {
       return (data.map((item,i) => (
         <DoctorCard
           profilePhoto={item.profilePhoto}
-          index={i}
+          key={i}
           name={item.nombre}
           specialty={item.especialidad}
           verified={item.verified}

@@ -7,7 +7,7 @@ const Colors =
     PRIMARY_BLUE: '#2F80ED',
     SECONDARY_BLUE: '#2196F3',
     RED: '#D12A40 ',
-    GREEN: '#0FDB4D',
+    GREEN: '#2ECC71',
     TRANSPARENT: '#00000000',
     DARK_GRAY: '#667780',
     MID_GRAY: '#ADC2CC',

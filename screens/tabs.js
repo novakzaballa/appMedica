@@ -333,7 +333,7 @@ const FirstRoute = (props) =>{
             {doctorListGroupBy[selected].map((item, index) => (
               <DoctorCard
                 profilePhoto={item.profilePhoto}
-                index={i}
+                key={index}
                 name={item.nombre}
                 specialty={item.especialidad}
                 verified={item.verified}
@@ -383,6 +383,7 @@ const FirstRoute = (props) =>{
 const SecondRoute = ({navigation}) => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const options = {
+    threshold: 0.35,
     keys: ['nombre']
   }
   
@@ -395,7 +396,7 @@ const SecondRoute = ({navigation}) => {
     return (result.map((item,i) => (
       <DoctorCard
         profilePhoto={item.item.profilePhoto}
-        index={i}
+        key={i}
         name={item.item.nombre}
         specialty={item.item.especialidad}
         verified={item.item.verified}

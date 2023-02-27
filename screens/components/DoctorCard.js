@@ -9,7 +9,7 @@ const CheckIcon =(props) => {
 }
 
 const DoctorCard = (props) => {
-    const {description, doctor, hour, index, showButtons, specialty, name, navAppointment, navProfile, profilePhoto, verified} = props;
+    const {description, hour, index, showButtons, specialty, name, navAppointment, navProfile, profilePhoto, verified} = props;
     return (
         <Card
           mode='elevated'

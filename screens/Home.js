@@ -3,12 +3,12 @@ import { BottomNavigation, Text } from 'react-native-paper';
 import Tabs from './tabs'
 import Colors from './src/utilitis/Colors';
 import Agenda from './Agenda';
-import Home2 from './MainHome';
+import MainHome from './MainHome';
 //MaterialCommmunityIcons
 
 const Home = ({navigation}) => {
 
-  const HomeRoute = () => <Home2 navigation={navigation}/>
+  const HomeRoute = () => <MainHome navigation={navigation}/>
   const searchRoute = () => <Tabs navigation={navigation}/>;
   const favoritesRoute = () => <Text>Favorites</Text>;
   const agendaRoute = () => <Agenda/>

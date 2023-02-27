@@ -3,6 +3,7 @@ import {Avatar, Button, FAB, Modal, Portal, Text} from 'react-native-paper';
 
 import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 import MapComponent from './components/mapComponent';
+import Colors from './src/utilitis/Colors';
 
 const Profile = ({navigation, route}) => {
   const [visible, setVisible] = React.useState(false);
@@ -74,6 +75,7 @@ const Profile = ({navigation, route}) => {
           <Text variant='bodyMedium'>{user.especialidad}</Text>
           {user.dist && (
             <Button
+              textColor={Colors.SECONDARY_BLUE}
               icon={require('./src/marcador-de-mapa.png')}
               mode='text'
               onPress={() => {

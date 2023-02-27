@@ -45,9 +45,11 @@ const MapComponent = (props) => {
       currentPosition: currentPosition,
     });
   };
-  const navAppointment = () => {
+  const navAppointment = (coordinateData) => {
     hideModal();
-    navigation.navigate('Appointment');
+    navigation.navigate('Appointment', {
+      doctor: coordinateData,
+    });
   };
 
   // 0.02 = 1km
@@ -135,7 +137,7 @@ const MapComponent = (props) => {
               verified={coordinateData.verified}
               showButtons
               navProfile={navProfile}
-              navAppointment={navAppointment}
+              navAppointment={() => {navAppointment(coordinateData)}}
             />
           }
         </Modal>
