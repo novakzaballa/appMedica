@@ -6,7 +6,7 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import _ from 'lodash';
 import {FlatList, View, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
 import DoctorCard from './components/DoctorCard';
-import {AgendaList} from 'react-native-calendars';
+import {AgendaList, CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -569,12 +569,12 @@ const MainHome = ({navigation, route}) => {
               Citas Proximas:
             </Text>
             <SafeAreaView style={{flex: 1}}>
-            {currentPosition !== {} && <AgendaList
-              sections={doctorDates}
-              renderItem={renderItem}
-              sectionStyle={styles.section}
-              dayFormat={'dd/MM/yyyy'}
-            />}
+              <AgendaList
+                sections={doctorDates}
+                renderItem={renderItem}
+                sectionStyle={styles.section}
+                dayFormat={'dd/MM/yyyy'}
+              />
             </SafeAreaView>
             <Text variant="headlineSmall" style={{marginHorizontal: 10}}>
               Recientes

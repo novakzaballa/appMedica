@@ -1,60 +1,88 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Agenda, Calendar, CalendarProvider, ExpandableCalendar } from 'react-native-calendars';
-import { Button, Card, Searchbar, Text } from 'react-native-paper';
+import {StyleSheet, View} from 'react-native';
+import {
+  AgendaList as Agenda,
+  CalendarProvider,
+  ExpandableCalendar,
+} from 'react-native-calendars';
+import {Button, Card, Text} from 'react-native-paper';
+import DoctorCard from './components/DoctorCard';
 
 const AgendaList = () => {
-    const [items, setItems]= React.useState({});
+  const [items, setItems] = React.useState({});
+  const doctorDates = [
+    {
+      title: '2023/02/27',
+      data: [
+        {
+          nombre: 'Juan Lordoño',
+          key: 'zqsiE2w3',
+          profilePhoto:
+            'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*',
+          especialidad: 'Cardiologia',
+          isAppoinment: true,
+          ubicacion: {
+            latitude: -16.497555,
+            longitude: -68.124245,
+            city: 'La paz',
+            description: 'Stadium',
+          },
+          verified: true,
+        },
+      ],
+    },
+    {
+      title: '2023/02/28',
+      data: [
+        {
+          nombre: 'Alberto Medrano',
+          key: '1K6Iw00s18',
+          profilePhoto:
+            'https://www.kauveryhospital.com/doctorimage/recent/salem/Dr_P_V_Dhanapal.jpg',
+          especialidad: 'Gastroenterologia',
+          isAppoinment: true,
+          ubicacion: {
+            latitude: -16.588905,
+            longitude: -68.176811,
+            city: 'El Alto',
+            description: 'El Alto',
+          },
+        },
+      ],
+    },
+  ];
 
-      const renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
-        const fontSize = isFirst ? 16 : 14;
-        const color = isFirst ? 'black' : '#43515c';
-    
-        return (
-          <Card style={[styles.item, {height: reservation.height}]}>
-            <Text style={{fontSize, color}}>{reservation.hour}</Text>
-            <Text style={{fontSize, color}}>{reservation.name}</Text>
-          </Card>
-        );
-      }
-    
-      const rowHasChanged = (r1, r2) => {
-        return r1.name !== r2.name;
-      }
-    
-      const timeToString = (time) => {
-        const date = new Date(time);
-        return date.toISOString().split('T')[0];
-      }
-      const renderEmptyDate = () => {
-        return (
-          <View style={styles.emptyDate}>
-          </View>
-        );
-      }
+  const renderItem = React.useCallback((item: any) => {
+    return (
+      <DoctorCard
+        profilePhoto={item.item.profilePhoto}
+        isAppoinment
+        name={item.item.nombre}
+        specialty={item.item.especialidad}
+        verified={item.item.verified}
+        description={item.item.ubicacion.description}
+      />
+    );
+  }, []);
 
-    return(
-    <View style={{ flex: 1 }}>
-      {
+  return (
+    <View style={{flex: 1}}>
+      <CalendarProvider
+        date={'2023-02-28'}
+        disabledOpacity={0.6}
+        showTodayButton={false}
+      >
+        {<ExpandableCalendar firstDay={1} />}
         <Agenda
-          items={{
-            '2023-02-16': [{name: 'Juan Manuel Perez', hour: '17:00'}],
-            '2023-02-28': [{name: 'Oscar Ramos', height: 80, hour: '17:00'}],
-            '2023-02-25': [{name: 'Manuel Medrano', hour: '14:00'}, {name: 'Omar Guzman', hour: '15:00'}]
-          }}
+          sections={doctorDates}
           renderItem={renderItem}
-          rowHasChanged={rowHasChanged}
-          showClosingKnob={true}
-          renderEmptyDate={renderEmptyDate}
-          renderEmptyData={() => {
-            return <View />;
-          }}
-          refreshing={false}
+          sectionStyle={styles.section}
+          dayFormat={'dd/MM/yyyy'}
         />
-      }
-    </View>)
-
-}
+      </CalendarProvider>
+    </View>
+  );
+};
 
 export default AgendaList;
 
@@ -65,11 +93,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
-    marginTop: 17
+    marginTop: 17,
   },
   emptyDate: {
     height: 15,
     flex: 1,
-    paddingTop: 30
-  }
+    paddingTop: 30,
+  },
 });
