@@ -71,21 +71,11 @@ const SignUp = ({navigation}) => {
           <Button
             style={homeStyles.buttonSignInContainer}
             mode='contained'
-            //onPress = {() =>handleSignUpButton()}
-            onPress = {
-              () =>{
-                  navigation.navigate('Home')
-              }}>
-          Sign up
-          </Button>
-          <Button
-            style={homeStyles.buttonSignInContainer}
-            mode='contained'
             onPress = {
               () =>{
                   navigation.navigate('AnimatedVerification')
               }}>
-          Sign in
+          Sign up
           </Button>
         </View></>}
       </View>

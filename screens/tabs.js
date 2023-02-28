@@ -341,7 +341,7 @@ const FirstRoute = (props) =>{
                 navProfile={() => {
                     navigation.navigate('Profile', {
                     user: item,
-                    currentPosition: {}
+                    currentPosition: currentPosition
                   })
                 }}
               />
@@ -370,7 +370,7 @@ const FirstRoute = (props) =>{
           onPress = {
             () =>{
                 navigation.navigate('Map', {
-                  coordinates: {currentPosition, doctorList, selected}
+                  coordinates: {currentPosition, doctorList, selected, isSliderVisible: true}
                 }
               )
             }

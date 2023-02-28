@@ -99,6 +99,7 @@ const Profile = ({navigation, route}) => {
               textColor='black'
               renderItem={({item}) => (
                 <Button
+                  key={item.key}
                   style={styles.button}
                   mode='outlined'
                   textColor='black'

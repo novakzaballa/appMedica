@@ -13,16 +13,18 @@ const Map = ({navigation, route}) => {
             <MapComponent
                 currentPosition={coordinates.currentPosition} 
                 markerCoordinates={coordinates.doctorList}
-                specialty = {coordinates.selected}
+                specialty = {coordinates.selected || ''}
+                isComponent = {coordinates.isComponent || false}
                 navigation={navigation}
                 circleRatio={ratio}/>
         </View>
+        { coordinates.isSliderVisible &&
         <Slider 
             style={styles.fab}
             maximumValue={20} 
             minimumValue={0} 
             step={5}
-            onValueChange={(value) => setRatio({value}) }/>
+            onValueChange={(value) => setRatio({value}) }/>}
         </>
     )
 }
