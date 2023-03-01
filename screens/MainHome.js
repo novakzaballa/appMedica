@@ -1,16 +1,16 @@
 import React from 'react';
-import {Card, Searchbar, Text} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Button, Card, Text} from 'react-native-paper';
 import Colors from './src/utilitis/Colors';
 import {SelectList} from 'react-native-dropdown-select-list';
 import _ from 'lodash';
-import {FlatList, View, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
+import {FlatList, View, SafeAreaView, StyleSheet, ScrollView, LogBox} from 'react-native';
 import DoctorCard from './components/DoctorCard';
-import {AgendaList, CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
+import {AgendaList} from 'react-native-calendars';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 
-const MainHome = ({navigation, route}) => {
+const MainHome = ({navigation}) => {
+  LogBox.ignoreAllLogs();
   const doctorData = [
     {
       value: 'Michael Torrez',
@@ -442,11 +442,6 @@ const MainHome = ({navigation, route}) => {
     {key: 'Oncologia', value: 'Oncologia'},
     {key: 'Nefrologia', value: 'Nefrologia'},
   ];
-  const CheckIcon = (props) => {
-    return (
-      <Icon name="check-decagram" size={22} color={Colors.PRIMARY_BLUE} solid />
-    );
-  };
   const navProfile = (item) => {
     navigation.navigate('Profile', {
       user: item,
@@ -525,18 +520,55 @@ const MainHome = ({navigation, route}) => {
         }}
       />)
   }, [currentPosition, proximityOrder]);
+  /*
+  {[
+            styles.selectDropdown,
+            {
+              minWidth: viewList ? '56%' : '65%',
+            },
+          ]}
+  */
 
   return (
-    <View style={styles.scene}>
-      <SelectList
-        setSelected={(val) => changeViewList(val)}
-        data={specialtyData}
-        placeholder="Buscar por especialidad"
-        searchPlaceholder="Buscar por especialidad"
-        save="value"
-        boxStyles={styles.selectDropdown}
-        dropdownStyles={styles.selectDropdown}
-      />
+    <SafeAreaView style={styles.scene}>
+        {!viewList &&<SelectList
+          setSelected={(val) => changeViewList(val)}
+          data={specialtyData}
+          placeholder="Buscar por especialidad"
+          searchPlaceholder="Buscar por especialidad"
+          save="value"
+          boxStyles={styles.selectDropdown}
+          dropdownStyles={styles.selectDropdown}
+        />}
+      {viewList &&<View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+        
+          <Button 
+            icon='arrow-left' 
+            textColor={Colors.BLACK} 
+            style={{minWidth: '5%', paddingVertical: 10}} 
+            onPress={()=>setViewList(false)}/>
+        
+        <SelectList
+          setSelected={(val) => changeViewList(val)}
+          data={specialtyData}
+          placeholder="Buscar por especialidad"
+          searchPlaceholder="Buscar por especialidad"
+          save="value"
+          boxStyles=  {[
+            styles.selectDropdown,
+            {
+              minWidth: '65%',
+            },
+          ]}
+          dropdownStyles=  {[
+            styles.selectDropdown,
+            {
+              minWidth: '65%',
+            },
+          ]}
+        />
+      </View>
+}
       <ScrollView>
         {viewList && <DoctorList />}
         {!viewList && (
@@ -568,14 +600,14 @@ const MainHome = ({navigation, route}) => {
             <Text variant="headlineSmall" style={{marginHorizontal: 10, marginBottom: 10}}>
               Citas Proximas:
             </Text>
-            <SafeAreaView style={{flex: 1}}>
+            <ScrollView style={{flex: 1}}>
               <AgendaList
                 sections={doctorDates}
                 renderItem={renderItem}
                 sectionStyle={styles.section}
                 dayFormat={'dd/MM/yyyy'}
               />
-            </SafeAreaView>
+            </ScrollView>
             <Text variant="headlineSmall" style={{marginHorizontal: 10}}>
               Recientes
             </Text>
@@ -585,7 +617,7 @@ const MainHome = ({navigation, route}) => {
           </View>
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 export default MainHome;

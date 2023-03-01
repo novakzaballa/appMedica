@@ -1,12 +1,24 @@
 import * as React from 'react';
-import { BottomNavigation, Text } from 'react-native-paper';
+import {Avatar, BottomNavigation, Text} from 'react-native-paper';
+import {TouchableOpacity} from 'react-native';
+
 import Tabs from './tabs'
-import Colors from './src/utilitis/Colors';
 import Agenda from './Agenda';
 import MainHome from './MainHome';
+import Colors from './src/utilitis/Colors';
 //MaterialCommmunityIcons
 
 const Home = ({navigation}) => {
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('UserProfile');
+        }}>
+        <Avatar.Text size={45} label="DD" color="black" style={{backgroundColor: Colors.SECONDARY_BLUE}}/>
+      </TouchableOpacity>
+    ),
+  });
 
   const HomeRoute = () => <MainHome navigation={navigation}/>
   const searchRoute = () => <Tabs navigation={navigation}/>;

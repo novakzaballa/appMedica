@@ -11,6 +11,7 @@ import Colors from '../screens/src/utilitis/Colors'
 import LogIn from './../screens/LogIn';
 import MainHome from '../screens/MainHome'
 import AnimatedVerification from '../screens/signUp/Verification'
+import UserProfile from '../screens/userProfile'
 const Stack = createNativeStackNavigator()
 
 const Stacks = () => {
@@ -135,6 +136,19 @@ const Stacks = () => {
                     },
                   }
                 }
+                />
+                <Stack.Screen
+                  name='UserProfile'
+                  component={ UserProfile }
+                  options={{
+                    headerStyle: {
+                      backgroundColor: Colors.PRIMARY_BLUE,
+                    },
+                    headerTintColor: Colors.WHITE,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                  }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

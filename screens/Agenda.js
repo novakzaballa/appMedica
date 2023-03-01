@@ -6,7 +6,9 @@ import {
   ExpandableCalendar,
 } from 'react-native-calendars';
 import {Button, Card, Text} from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import DoctorCard from './components/DoctorCard';
+import Colors from './src/utilitis/Colors';
 
 const AgendaList = () => {
   const [items, setItems] = React.useState({});
@@ -56,7 +58,6 @@ const AgendaList = () => {
     return (
       <DoctorCard
         profilePhoto={item.item.profilePhoto}
-        isAppoinment
         name={item.item.nombre}
         specialty={item.item.especialidad}
         verified={item.item.verified}
@@ -73,12 +74,14 @@ const AgendaList = () => {
         showTodayButton={false}
       >
         {<ExpandableCalendar firstDay={1} />}
-        <Agenda
-          sections={doctorDates}
-          renderItem={renderItem}
-          sectionStyle={styles.section}
-          dayFormat={'dd/MM/yyyy'}
-        />
+        <SafeAreaView style={{backgroundColor: Colors.TRANSPARENT}}>
+          <Agenda
+            sections={doctorDates}
+            renderItem={renderItem}
+            sectionStyle={{backgroundColor: Colors.LIGHT_GRAY}}
+            dayFormat={'dd/MM/yyyy'}
+          />
+        </SafeAreaView>
       </CalendarProvider>
     </View>
   );
