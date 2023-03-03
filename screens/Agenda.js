@@ -14,7 +14,7 @@ const AgendaList = () => {
   const [items, setItems] = React.useState({});
   const doctorDates = [
     {
-      title: '2023/02/27',
+      title: '2023-03-03',
       data: [
         {
           nombre: 'Juan Lordoño',
@@ -34,7 +34,7 @@ const AgendaList = () => {
       ],
     },
     {
-      title: '2023/02/28',
+      title: '2023-03-04',
       data: [
         {
           nombre: 'Alberto Medrano',
@@ -69,7 +69,7 @@ const AgendaList = () => {
   return (
     <View style={{flex: 1}}>
       <CalendarProvider
-        date={'2023-02-28'}
+        date={'2023-03-02'}
         disabledOpacity={0.6}
         showTodayButton={false}
       >

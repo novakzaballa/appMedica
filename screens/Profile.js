@@ -35,7 +35,7 @@ const Profile = ({navigation, route}) => {
             the above mentioned data when the health provider is registered in
             our platform for the first time, and once per year.{' '}
           </Text>
-          <Button mode='text' onPress={hideModal}>
+          <Button mode='text' onPress={hideModal} textColor= {Colors.SECONDARY_BLUE}>
             Got it
           </Button>
         </Modal>
@@ -50,6 +50,7 @@ const Profile = ({navigation, route}) => {
           />
           <Button
             icon={require('./src/marcador-de-mapa.png')}
+            style={{backgroundColor: Colors.SECONDARY_BLUE}}
             mode='contained'
             onPress={() => {
               setMapVisibility(false);
@@ -61,16 +62,21 @@ const Profile = ({navigation, route}) => {
       )}
       {!mapVisibility && (
         <View style={styles.container}>
-          <Avatar.Image size={200} source={{uri: user.profilePhoto}} />
           {user.verified && (
             <Button
-              icon={require('./src/quality.png')}
+              icon={require('./src/quality2.png')}
+              textColor= {Colors.SECONDARY_BLUE}
+              style={{
+              position: 'absolute',
+              margin: 5,
+              right: 0,
+              top: 0,}}
               mode='text'
               onPress={showModal}
             >
-              Verificado
             </Button>
           )}
+          <Avatar.Image size={200} source={{uri: user.profilePhoto}} />
           <Text variant='titleLarge'>{user.nombre}</Text>
           <Text variant='bodyMedium'>{user.especialidad}</Text>
           {user.dist && (
@@ -147,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#fff',
     alignItems: 'center',
-    marginTop: '15%',
+    marginTop: '10%',
   },
   container2: {
     margin: 10,

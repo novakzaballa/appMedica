@@ -1,145 +1,155 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
+import {StyleSheet, View} from 'react-native';
+import {Button, Text, TextInput} from 'react-native-paper';
 import Colors from './src/utilitis/Colors';
 
 const SignUp = ({navigation}) => {
+  const [names, setNames] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [phoneComponent, setPhoneComponent] = React.useState(false);
+  const [codeValidationComponent, setCodeValidationComponent] =
+    React.useState(false);
+  const [signUpComponent, setSignUpComponent] = React.useState(true);
 
-    const [names, setNames] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [phone, setPhone] = React.useState('');
-    const [phoneComponent, setPhoneComponent] = React.useState(false);
-    const [codeValidationComponent, setCodeValidationComponent] = React.useState(false);
-    const [signUpComponent, setSignUpComponent] = React.useState(true);
-
-    const handlePreviousButton = () =>{
-      if(phoneComponent){
-        setPhoneComponent(false);
-        setSignUpComponent(true);
-      }else if(codeValidationComponent){
-        setCodeValidationComponent(false);
-        setPhoneComponent(false);
-      }
+  const handlePreviousButton = () => {
+    if (phoneComponent) {
+      setPhoneComponent(false);
+      setSignUpComponent(true);
+    } else if (codeValidationComponent) {
+      setCodeValidationComponent(false);
+      setPhoneComponent(false);
     }
-    const handleNextButton = () =>{
-      if(phoneComponent){
-        setPhoneComponent(false);
-        setCodeValidationComponent(true);
-      }else if(codeValidationComponent){
-        setCodeValidationComponent(false);
-      }
+  };
+  const handleNextButton = () => {
+    if (phoneComponent) {
+      setPhoneComponent(false);
+      setCodeValidationComponent(true);
+    } else if (codeValidationComponent) {
+      setCodeValidationComponent(false);
     }
-    const handleSignUpButton = () =>{
-      setPhoneComponent(true);
-      setSignUpComponent(false);
-    }
-    return(
-      <>
+  };
+  const handleSignUpButton = () => {
+    setPhoneComponent(true);
+    setSignUpComponent(false);
+  };
+  return (
+    <>
       <View>
         {/*phoneComponent && <PhoneVerification/>*/}
-        {signUpComponent && <>
-        <View style={homeStyles.centerView}>
-          <Text variant='headlineLarge'>Create an Account</Text>
-          <Text variant='bodySmall'>Sign up</Text>
-        </View>
-        <View style={{marginLeft:'15%', marginRight: '15%'}}>
-          <TextInput
-            label='Nombres'
-            mode={'outlined'}
-            outlineStyle={homeStyles.textInput}
-            activeOutlineColor={Colors.SECONDARY_BLUE}
-            value={names}
-            onChangeText={names => setNames(names)}
-          />
-          <TextInput
-            activeOutlineColor={Colors.SECONDARY_BLUE}
-            label='Apellidos'
-            mode={'outlined'}
-            outlineStyle={homeStyles.textInput}
-            value={lastName}
-            onChangeText={lastName => setLastName(lastName)}
-          />
-          <TextInput
-            activeOutlineColor={Colors.SECONDARY_BLUE}
-            label='Telefono'
-            mode={'outlined'}
-            secureTextEntry={true}
-            outlineStyle={homeStyles.textInput}
-            value={phone}
-            onChangeText={phone => setPhone(phone)}
-          />
-          <Button
-            style={homeStyles.buttonSignInContainer}
-            mode='contained'
-            onPress = {
-              () =>{
-                  navigation.navigate('AnimatedVerification')
-              }}>
-          Sign up
-          </Button>
-        </View></>}
+        {signUpComponent && (
+          <>
+            <View style={homeStyles.centerView}>
+              <Text variant="headlineLarge">Create an Account</Text>
+              <Text variant="bodySmall">Sign up</Text>
+            </View>
+            <View style={{marginLeft: '15%', marginRight: '15%'}}>
+              <TextInput
+                label="Nombres"
+                mode={'outlined'}
+                outlineStyle={homeStyles.textInput}
+                activeOutlineColor={Colors.SECONDARY_BLUE}
+                value={names}
+                onChangeText={(names) => setNames(names)}
+              />
+              <TextInput
+                activeOutlineColor={Colors.SECONDARY_BLUE}
+                label="Apellidos"
+                mode={'outlined'}
+                outlineStyle={homeStyles.textInput}
+                value={lastName}
+                onChangeText={(lastName) => setLastName(lastName)}
+              />
+              <TextInput
+                activeOutlineColor={Colors.SECONDARY_BLUE}
+                label="Telefono"
+                mode={'outlined'}
+                secureTextEntry={true}
+                outlineStyle={homeStyles.textInput}
+                value={phone}
+                onChangeText={(phone) => setPhone(phone)}
+              />
+              <Button
+                style={homeStyles.buttonSignInContainer}
+                mode="contained"
+                onPress={() => {
+                  navigation.navigate('AnimatedVerification');
+                }}
+              >
+                Sign up
+              </Button>
+            </View>
+          </>
+        )}
       </View>
-      {phoneComponent && <><Button
-        style={homeStyles.textButtonLeft}
-        mode='text'
-        onPress = {() =>handlePreviousButton()}>
-      {'< Previous'}
-      </Button>
-      <Button
-        style={homeStyles.textButton}
-        mode='text'
-        onPress = {() =>handleNextButton()}>
-      {codeValidationComponent ? 'finish >' : 'Next >'}
-    </Button></>}    
+      {phoneComponent && (
+        <>
+          <Button
+            style={homeStyles.textButtonLeft}
+            mode="text"
+            onPress={() => handlePreviousButton()}
+          >
+            {'< Previous'}
+          </Button>
+          <Button
+            style={homeStyles.textButton}
+            mode="text"
+            onPress={() => handleNextButton()}
+          >
+            {codeValidationComponent ? 'finish >' : 'Next >'}
+          </Button>
+        </>
+      )}
     </>
-    )
-}
+  );
+};
 export default SignUp;
 
 const homeStyles = StyleSheet.create({
-    buttonFacebookContainer: {
-      backgroundColor: '#3b5998',
-      borderRadius: 100,
-      height: 50,
-      display: 'flex', justifyContent: 'center'
-    },
-    buttonSignInContainer: {
-      backgroundColor: '#2ECC71',
-      borderRadius: 100,
-      height: 50,
-      marginTop: 10,
-      display: 'flex', 
-      justifyContent: 'center'
-    },
-    textInput:{
-      borderRadius: 100,
-      borderColor: '#2196F3'
-    },
-    circle: {
-      borderRadius: 50,
-      width: 50,
-      height: 50,
-      padding: 15,
-      backgroundColor: '#fff',
-      borderWidth: 1,
-      color: '#000',
-      textAlign: 'center',
-    },
-    centerView: {
-      justifyContent:'center', 
-      alignItems:'center',
-      marginTop:'5%'
-    },
-    textButton: {
-      position: 'absolute',
-      bottom: 0,
-      margin: 16,
-      right: 0,
-    },
-    textButtonLeft: {
-      position: 'absolute',
-      bottom: 0,
-      margin: 16,
-      left: 0,
-    }
-  });
+  buttonFacebookContainer: {
+    backgroundColor: '#3b5998',
+    borderRadius: 100,
+    height: 50,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  buttonSignInContainer: {
+    backgroundColor: '#2ECC71',
+    borderRadius: 100,
+    height: 50,
+    marginTop: 10,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  textInput: {
+    borderRadius: 100,
+    borderColor: '#2196F3',
+  },
+  circle: {
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+    padding: 15,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    color: '#000',
+    textAlign: 'center',
+  },
+  centerView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '5%',
+  },
+  textButton: {
+    position: 'absolute',
+    bottom: 0,
+    margin: 16,
+    right: 0,
+  },
+  textButtonLeft: {
+    position: 'absolute',
+    bottom: 0,
+    margin: 16,
+    left: 0,
+  },
+});

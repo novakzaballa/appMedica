@@ -494,7 +494,7 @@ const MainHome = ({navigation}) => {
     ));
   };
   
-  const renderItem = React.useCallback((item: any) => {
+  const renderItem = React.useCallback((item) => {
     return(
       <DoctorCard
         profilePhoto={item.item.profilePhoto}
@@ -540,30 +540,36 @@ const MainHome = ({navigation}) => {
           boxStyles={styles.selectDropdown}
           dropdownStyles={styles.selectDropdown}
         />}
-      {viewList &&<View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-        
-          <Button 
-            icon='arrow-left' 
-            textColor={Colors.BLACK} 
-            style={{minWidth: '5%', paddingVertical: 10}} 
-            onPress={()=>setViewList(false)}/>
+      {viewList &&
+      <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+        <Button 
+          icon='arrow-left' 
+          textColor={Colors.BLACK} 
+          style={{minWidth: '5%', paddingVertical: 10}} 
+          onPress={()=>setViewList(false)}/>
         
         <SelectList
           setSelected={(val) => changeViewList(val)}
           data={specialtyData}
           placeholder="Buscar por especialidad"
           searchPlaceholder="Buscar por especialidad"
-          save="value"
-          boxStyles=  {[
+          dropdownItemStyles = {[
             styles.selectDropdown,
             {
-              minWidth: '65%',
+              minWidth: '45%',
             },
           ]}
-          dropdownStyles=  {[
+          save="value"
+          boxStyles = {[
             styles.selectDropdown,
             {
-              minWidth: '65%',
+              minWidth: '55%',
+            },
+          ]}
+          dropdownStyles = {[
+            styles.selectDropdown,
+            {
+              minWidth: '55%',
             },
           ]}
         />
